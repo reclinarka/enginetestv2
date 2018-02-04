@@ -5,6 +5,7 @@ import com.sun.corba.se.impl.presentation.rmi.DynamicMethodMarshallerImpl;
 import de.reclinarka.graphics.drawing.DrawableRegister;
 import de.reclinarka.graphics.frame.type.Slate;
 import de.reclinarka.graphics.registers.Register;
+import de.reclinarka.instances.Instance;
 import de.reclinarka.objects.Test;
 import de.reclinarka.objects.interaction.InteractionListener;
 import de.reclinarka.objects.interaction.InteractionRegistry;
@@ -18,7 +19,6 @@ import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) {
-
         System.out.println(new Test("test").getClass());
         test();
     }
@@ -26,11 +26,13 @@ public class Main {
 
 
     public static void test(){
+
         DrawableRegister editorDrawings = new DrawableRegister("editorWindow");
         InteractionRegistry editorInteractables = new InteractionRegistry("editorInteractables");
         InteractionListener interactionListener = new InteractionListener(editorInteractables, "editorWindow");
         Slate editorPanel = new Slate(editorDrawings);
-        Window editorWindow = new de.reclinarka.graphics.frame.Window("test",editorPanel,1200,600,false);
+        Window editorWindow = new de.reclinarka.graphics.frame.Window("test",editorPanel,1200,600,
+                100,0,false);
         editorWindow.addMouseListener(interactionListener);
         editorWindow.addKeyListener(interactionListener);
         editorWindow.addMouseMotionListener(interactionListener);
@@ -39,12 +41,11 @@ public class Main {
         InteractionListener buttonListener = new InteractionListener(editorInteractables,"buttonPanel");
         DrawableRegister buttonDrawings = new DrawableRegister("buttonPanel");
         Slate buttonPanel = new Slate(buttonDrawings);
-        Window buttonWindow = new de.reclinarka.graphics.frame.Window("Tools",buttonPanel,100,400,false);
+        Window buttonWindow = new de.reclinarka.graphics.frame.Window("Tools",buttonPanel,200,600,
+                -650, 0,false);
         buttonWindow.addMouseMotionListener(buttonListener);
         buttonWindow.addKeyListener(buttonListener);
         buttonWindow.addMouseListener(buttonListener);
-
-
 
         //editorDrawings.save(WriterReader.getDirPath()+"\\editor\\objects");
     }
