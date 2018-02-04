@@ -7,7 +7,7 @@ import de.reclinarka.util.WriterReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class InstanceManager implements Writeable{
+public class InstanceManager {
     public InstanceManager(){
 
     }
@@ -25,15 +25,20 @@ public class InstanceManager implements Writeable{
     public void setParents(){
         instances.forEach( f -> f.setParent(this));
     }
-    @Override
+
     public void load(String path) throws IOException {
         String subPath = path + "\\" + ID;
         setID(ID);
         this.instances = (ArrayList<Instance>) WriterReader.load(new ArrayList<Instance>(),subPath + "\\instances.json");
     }
 
-    @Override
-    public void save(String path) throws IOException {
+    public void load(String path, String ID) throws IOException {
+        String subPath = path + "\\" + ID;
+        setID(ID);
+        this.instances = (ArrayList<Instance>) WriterReader.load(new ArrayList<Instance>(),subPath + "\\instances.json");
+    }
 
+    public void save(String path) throws IOException {
+        WriterReader.save(instances,path + "\\" + ID);
     }
 }
