@@ -8,6 +8,9 @@ public class InteractionListener implements MouseListener, MouseMotionListener, 
         registry = interactionRegistry;
         this.ID = ID;
     }
+    public InteractionListener(String ID){
+        this.ID = ID;
+    }
 
     private InteractionRegistry registry;
     private String ID;
