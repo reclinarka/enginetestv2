@@ -15,7 +15,13 @@ public class InteractionListener implements MouseListener, MouseMotionListener, 
     private InteractionRegistry registry;
     private String ID;
 
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
+    public void setRegistry(InteractionRegistry registry) {
+        this.registry = registry;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {

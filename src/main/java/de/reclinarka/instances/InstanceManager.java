@@ -20,7 +20,7 @@ public class InstanceManager {
         this.slate = slate;
     }
 
-
+    private Instance activeInstance;
     private String ID;
     private ArrayList<Instance> instances = new ArrayList<>();
     private Window window;
@@ -28,7 +28,32 @@ public class InstanceManager {
     private InteractionListener interactionListener = new InteractionListener(ID + "_listener");
 
     public void init(String ID){
+        Instance instance = getInstance(ID);
+        if(instance == null)
+            return;
+        interactionListener.setRegistry(instance.getInteractionRegistry());
+        slate.setContent(instance.getDrawableRegister());
+        activeInstance = instance;
+    }
 
+    public void call(String ID){
+        Instance instance = getInstance(ID);
+        if(instance == null)
+            return;
+        interactionListener.setRegistry(instance.getInteractionRegistry());
+        slate.setContent(instance.getDrawableRegister());
+        activeInstance = instance;
+    }
+
+    private Instance getInstance(String ID){
+        Instance instance = null;
+        for(int i = 0; i < instances.size();i++){
+
+            if(instances.get(i).getID().contentEquals(ID)) {
+                instance = instances.get(i);
+            }
+        }
+        return instance;
     }
 
     public void setID(String ID) {
