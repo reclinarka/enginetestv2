@@ -10,5 +10,5 @@ public enum ColorConstant {
         this.index = index;
     }
 
-    public int index;
+    public final int index;
 }

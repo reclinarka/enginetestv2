@@ -1,5 +1,7 @@
 package de.reclinarka.objects.framework.buttons;
 
+import de.reclinarka.objects.framework.properties.colors.ColorConstant;
+import de.reclinarka.objects.framework.properties.colors.Colorset;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
 import de.reclinarka.objects.interaction.EventType;
 import de.reclinarka.objects.interaction.Interactable;
@@ -11,13 +13,16 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static de.reclinarka.objects.framework.properties.colors.ColorConstant.*;
+
 public class Button implements Interactable {
     public Button(){
 
     }
 
     private Coordinate pos;
-
+    private Colorset colors;
+    private ColorConstant currentColor = MAIN;
 
 
 
