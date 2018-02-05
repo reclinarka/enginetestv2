@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class InteractionRegistry extends Register<Interactable> implements Interactable{
+public class InteractionRegistry extends Register<Interactable> implements Interactable{ //interface for communication
 
     public InteractionRegistry(String ID){
         setID(ID);

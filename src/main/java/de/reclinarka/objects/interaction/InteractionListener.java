@@ -2,7 +2,7 @@ package de.reclinarka.objects.interaction;
 
 import java.awt.event.*;
 
-public class InteractionListener implements MouseListener, MouseMotionListener, KeyListener {
+public class InteractionListener implements MouseListener, MouseMotionListener, KeyListener { //Listener for mouse and keyboard
 
     public InteractionListener(InteractionRegistry interactionRegistry,String ID){
         registry = interactionRegistry;

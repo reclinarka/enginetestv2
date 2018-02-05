@@ -5,7 +5,7 @@ import de.reclinarka.objects.Test;
 
 import java.util.ArrayList;
 
-public class DrawableCreator {
+public class DrawableCreator { //builder for loading an ArrayLists for the Interface Drawable
     private ArrayList<Drawable> builder = new ArrayList<>();
     public void add(String path, String classy){
         switch (classy){

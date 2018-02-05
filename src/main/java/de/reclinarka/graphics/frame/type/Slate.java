@@ -6,7 +6,7 @@ import de.reclinarka.util.ColorStorage;
 import javax.swing.*;
 import java.awt.*;
 
-public class Slate extends JPanel {
+public class Slate extends JPanel { //content for the Window
     public Slate(DrawableRegister content){
         this.content = content;
     }

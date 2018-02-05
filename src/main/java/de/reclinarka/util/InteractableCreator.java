@@ -6,7 +6,7 @@ import de.reclinarka.objects.interaction.Interactable;
 
 import java.util.ArrayList;
 
-public class InteractableCreator {
+public class InteractableCreator { //builder for loading an ArrayLists for the Interface Interactable
     private ArrayList<Interactable> builder = new ArrayList<>();
     public void add(String path, String classy){
         switch (classy){

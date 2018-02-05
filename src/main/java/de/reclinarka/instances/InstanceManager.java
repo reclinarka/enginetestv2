@@ -11,7 +11,8 @@ import de.reclinarka.util.WriterReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class InstanceManager {
+public class InstanceManager { //supposed to manage and select between different GUIs
+
     public InstanceManager() {
     }
     public InstanceManager(String ID,Window window,Slate slate) {
