@@ -44,7 +44,7 @@ public class WriterReader {
     private static ObjectMapper mapper = new ObjectMapper();
     private static void readWriteExample(){
         ObjectMapper mapper = new ObjectMapper();
-        Test test = new Test("test");
+        Test test = new Test();
         File file = new File("P:\\Coding\\Java\\test\\resources\\test.json");
         try {
             mapper.writeValue(file,test);

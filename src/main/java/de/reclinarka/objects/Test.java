@@ -2,6 +2,10 @@ package de.reclinarka.objects;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.reclinarka.graphics.drawing.Drawable;
+import de.reclinarka.objects.framework.properties.colors.ColorConstant;
+import de.reclinarka.objects.framework.properties.colors.Colorset;
+import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
+import de.reclinarka.objects.framework.properties.size.RectDimension;
 import de.reclinarka.objects.interaction.EventType;
 import de.reclinarka.objects.interaction.Interactable;
 import de.reclinarka.objects.interaction.InteractionRegistry;
@@ -12,18 +16,41 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
+import static de.reclinarka.objects.framework.properties.colors.ColorConstant.*;
+import static de.reclinarka.objects.interaction.EventType.*;
+
 public class Test implements Drawable,Interactable, Writeable{
     public Test(){
 
     }
-    public Test(String ID){
+    public Test(String ID,RectDimension dimension){
         this.ID = ID;
+        this.dimension = dimension;
     }
+
     private String ID;
+    private RectDimension dimension;
+    private Colorset colors = Colorset.defaultSet;
+    private ColorConstant currentColor = MAIN;
+    private ColorConstant currentBorder = ALT_BORDER;
 
     @Override
     public void mouseEvent(MouseEvent e, EventType type,String ID) {
+        switch (type){
+            case Mouse_Clicked:
+                if(dimension.containsPoint(new Coordinate(e.getX(),e.getY()))){
+                    System.out.println("clicked");
 
+                }
+                return;
+            case Mouse_Moved:
+                if( dimension.containsPoint( new Coordinate( e.getX(),e.getY() ) ) ){
+                    currentBorder = ALT_BORDER;
+                } else {
+                    currentBorder = BORDER;
+                }
+                return;
+        }
     }
 
     @Override
@@ -45,7 +72,10 @@ public class Test implements Drawable,Interactable, Writeable{
 
     @Override
     public void exec(Graphics g) {
-        System.out.println("reached");
+        g.setColor(colors.getColor(currentColor));
+        g.fillRect(dimension.getPos().getX(), dimension.getPos().getY(),dimension.getWidth(),dimension.getHeight());
+        g.setColor(colors.getColor(currentBorder));
+        g.drawRect(dimension.getPos().getX(), dimension.getPos().getY(),dimension.getWidth(),dimension.getHeight());
     }
 
     public String getID() {

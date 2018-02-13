@@ -1,11 +1,13 @@
 package de.reclinarka.instances;
 
+import de.reclinarka.graphics.drawing.Drawable;
 import de.reclinarka.graphics.drawing.DrawableRegister;
 import de.reclinarka.graphics.frame.Window;
 import de.reclinarka.graphics.frame.type.Slate;
 import de.reclinarka.objects.Writeable;
 import de.reclinarka.objects.interaction.EventType;
 import de.reclinarka.objects.interaction.Interactable;
+import de.reclinarka.objects.interaction.InteractionListener;
 import de.reclinarka.objects.interaction.InteractionRegistry;
 
 import java.awt.event.KeyEvent;
@@ -18,10 +20,23 @@ public class Instance{
 
     }
 
+    public Instance(DrawableRegister register, InteractionRegistry registry){
+        this.drawableRegister = register;
+        this.interactionRegistry = registry;
+    }
+
     private String ID;
     private DrawableRegister drawableRegister;
     private InteractionRegistry interactionRegistry;
     private InstanceManager parent;
+
+    public void setDrawableRegister(DrawableRegister drawableRegister) {
+        this.drawableRegister = drawableRegister;
+    }
+
+    public void setInteractionRegistry(InteractionRegistry interactionRegistry) {
+        this.interactionRegistry = interactionRegistry;
+    }
 
     public DrawableRegister getDrawableRegister() {
         return drawableRegister;

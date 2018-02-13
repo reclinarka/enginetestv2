@@ -1,5 +1,6 @@
 package de.reclinarka.objects.framework.buttons;
 
+import de.reclinarka.objects.framework.properties.size.RectDimension;
 import de.reclinarka.objects.framework.properties.colors.ColorConstant;
 import de.reclinarka.objects.framework.properties.colors.Colorset;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
@@ -7,11 +8,9 @@ import de.reclinarka.objects.interaction.EventType;
 import de.reclinarka.objects.interaction.Interactable;
 import de.reclinarka.objects.interaction.InteractionRegistry;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static de.reclinarka.objects.framework.properties.colors.ColorConstant.*;
 
@@ -20,6 +19,7 @@ public class Button implements Interactable {
 
     }
 
+    private RectDimension dimensions;
     private Coordinate pos;
     private Colorset colors;
     private ColorConstant currentColor = MAIN;
@@ -28,7 +28,12 @@ public class Button implements Interactable {
 
     @Override
     public void mouseEvent(MouseEvent e, EventType type, String ID) {
-
+        switch (type){
+            case Mouse_Clicked:
+                return;
+            case Mouse_Moved:
+                return;
+        }
     }
 
     @Override

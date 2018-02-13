@@ -28,6 +28,11 @@ public class InstanceManager { //supposed to manage and select between different
     private Slate slate;
     private InteractionListener interactionListener = new InteractionListener(ID + "_listener");
 
+    public void addInstance(Instance instance){
+        instances.add(instance);
+        instance.setParent(this);
+    }
+
     public void init(String ID){
         Instance instance = getInstance(ID);
         if(instance == null)

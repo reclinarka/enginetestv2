@@ -7,6 +7,8 @@ import de.reclinarka.graphics.frame.type.Slate;
 import de.reclinarka.graphics.registers.Register;
 import de.reclinarka.instances.Instance;
 import de.reclinarka.objects.Test;
+import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
+import de.reclinarka.objects.framework.properties.size.RectDimension;
 import de.reclinarka.objects.interaction.InteractionListener;
 import de.reclinarka.objects.interaction.InteractionRegistry;
 import de.reclinarka.util.WriterReader;
@@ -19,13 +21,14 @@ import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(new Test("test").getClass());
+        System.out.println(new Test().getClass());
         test();
     }
 
 
 
     public static void test(){
+        Test test = new Test("testobj",new RectDimension(20,20,new Coordinate(20,20)));
 
         DrawableRegister editorDrawings = new DrawableRegister("editorWindow");
         InteractionRegistry editorInteractables = new InteractionRegistry("editorInteractables");
@@ -33,19 +36,26 @@ public class Main {
         Slate editorPanel = new Slate(editorDrawings);
         Window editorWindow = new de.reclinarka.graphics.frame.Window("test",editorPanel,1200,600,
                 100,0,false);
-        editorWindow.addMouseListener(interactionListener);
-        editorWindow.addKeyListener(interactionListener);
-        editorWindow.addMouseMotionListener(interactionListener);
+        editorPanel.addMouseListener(interactionListener);
+        editorPanel.addKeyListener(interactionListener);
+        editorPanel.addMouseMotionListener(interactionListener);
 
+        editorInteractables.addRegistry(test);
+        editorDrawings.addRegistry(test);
 
         InteractionListener buttonListener = new InteractionListener(editorInteractables,"buttonPanel");
         DrawableRegister buttonDrawings = new DrawableRegister("buttonPanel");
         Slate buttonPanel = new Slate(buttonDrawings);
         Window buttonWindow = new de.reclinarka.graphics.frame.Window("Tools",buttonPanel,200,600,
                 -650, 0,false);
-        buttonWindow.addMouseMotionListener(buttonListener);
-        buttonWindow.addKeyListener(buttonListener);
-        buttonWindow.addMouseListener(buttonListener);
+        buttonPanel.addMouseMotionListener(buttonListener);
+        buttonPanel.addKeyListener(buttonListener);
+        buttonPanel.addMouseListener(buttonListener);
+
+        while(true){
+            editorWindow.repaint();
+            buttonWindow.repaint();
+        }
 
         //editorDrawings.save(WriterReader.getDirPath()+"\\editor\\objects");
     }
