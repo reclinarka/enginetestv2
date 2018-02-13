@@ -1,6 +1,7 @@
 package de.reclinarka.objects.interaction;
 
 import java.awt.event.*;
+import java.util.ConcurrentModificationException;
 
 public class InteractionListener implements MouseListener, MouseMotionListener, KeyListener { //Listener for mouse and keyboard
 
@@ -40,8 +41,11 @@ public class InteractionListener implements MouseListener, MouseMotionListener, 
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        registry.mouseEvent(e,EventType.Mouse_Clicked,ID);
+        try {
+            registry.mouseEvent(e,EventType.Mouse_Clicked,ID);
+        } catch (ConcurrentModificationException ex) {}
         System.out.println("x_"+ e.getX() + "; y_" + e.getY());
+
     }
 
     @Override

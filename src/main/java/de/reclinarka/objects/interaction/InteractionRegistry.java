@@ -43,7 +43,7 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
     @Override
     public void addRegistry(Interactable e) {
         super.addRegistry(e);
-        getRegister().forEach(f -> f.setReciever(this,null));
+        e.setReciever(this,null);
     }
 
     public void save(String path){
