@@ -16,11 +16,10 @@ import java.io.IOException;
 
 public class Instance{
 
-    public Instance(){
+    public Instance(){}
 
-    }
-
-    public Instance(DrawableRegister register, InteractionRegistry registry){
+    public Instance(String ID, DrawableRegister register, InteractionRegistry registry){
+        this.ID = ID;
         this.drawableRegister = register;
         this.interactionRegistry = registry;
     }

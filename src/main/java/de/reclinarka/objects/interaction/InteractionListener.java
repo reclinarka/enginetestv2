@@ -3,7 +3,7 @@ package de.reclinarka.objects.interaction;
 import java.awt.event.*;
 import java.util.ConcurrentModificationException;
 
-public class InteractionListener implements MouseListener, MouseMotionListener, KeyListener { //Listener for mouse and keyboard
+public class InteractionListener implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener { //Listener for mouse and keyboard
 
     public InteractionListener(InteractionRegistry interactionRegistry,String ID){
         registry = interactionRegistry;
@@ -74,5 +74,15 @@ public class InteractionListener implements MouseListener, MouseMotionListener, 
     @Override
     public void mouseMoved(MouseEvent e) {
         registry.mouseEvent(e,EventType.Mouse_Moved,ID);
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        if(e.getPreciseWheelRotation() > 0){
+            registry.mouseEvent(e,EventType.Wheel_Down,ID);
+        } else {
+            registry.mouseEvent(e,EventType.Wheel_Up,ID);
+        }
+        System.out.println(e.getPreciseWheelRotation());
     }
 }

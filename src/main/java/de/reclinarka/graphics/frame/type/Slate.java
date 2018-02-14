@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Slate extends JPanel { //content for the Window
+    public Slate(){}
     public Slate(DrawableRegister content){
         this.content = content;
     }
@@ -19,7 +20,8 @@ public class Slate extends JPanel { //content for the Window
     protected void paintComponent(Graphics g){
         g.setColor(ColorStorage.defaultBackGround);
         g.fillRect(-3,-3,this.getWidth() + 6, this.getHeight() + 6);
-        content.draw(g);
-
+        try {
+            content.draw(g);
+        } catch ( NullPointerException e){}
     }
 }

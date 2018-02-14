@@ -6,6 +6,8 @@ public enum EventType {
     Mouse_Released,
     Mouse_Moved,
     Mouse_Dragged,
+    Wheel_Up,
+    Wheel_Down,
     Key_Pressed,
     Key_Released,
     Key_Typed

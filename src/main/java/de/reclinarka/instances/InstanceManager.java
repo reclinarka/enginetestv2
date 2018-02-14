@@ -34,6 +34,10 @@ public class InstanceManager { //supposed to manage and select between different
     }
 
     public void init(String ID){
+        slate.addMouseListener(interactionListener);
+        slate.addMouseMotionListener(interactionListener);
+        slate.addMouseWheelListener(interactionListener);
+        slate.addKeyListener(interactionListener);
         Instance instance = getInstance(ID);
         if(instance == null)
             return;
@@ -51,6 +55,22 @@ public class InstanceManager { //supposed to manage and select between different
         activeInstance = instance;
     }
 
+    public String getID() {
+        return ID;
+    }
+
+    public Instance getActiveInstance() {
+        return activeInstance;
+    }
+
+    public Slate getSlate() {
+        return slate;
+    }
+
+    public Window getWindow() {
+        return window;
+    }
+
     private Instance getInstance(String ID){
         Instance instance = null;
         for(int i = 0; i < instances.size();i++){
@@ -60,6 +80,22 @@ public class InstanceManager { //supposed to manage and select between different
             }
         }
         return instance;
+    }
+
+    public void setActiveInstance(Instance activeInstance) {
+        this.activeInstance = activeInstance;
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+
+    public void setSlate(Slate slate) {
+        this.slate = slate;
+    }
+
+    public void setInteractionListener(InteractionListener interactionListener) {
+        this.interactionListener = interactionListener;
     }
 
     public void setID(String ID) {
