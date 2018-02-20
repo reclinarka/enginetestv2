@@ -19,6 +19,8 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
         setID(ID);
     }
 
+
+
     @Override
     public void mouseEvent(MouseEvent e, EventType type,String ID) {
         getRegister().forEach(f -> f.mouseEvent(e, type, ID));

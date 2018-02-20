@@ -3,7 +3,10 @@ package de.reclinarka.instances;
 import de.reclinarka.graphics.frame.Window;
 import de.reclinarka.graphics.frame.type.Slate;
 import de.reclinarka.objects.Writeable;
+import de.reclinarka.objects.interaction.Interactable;
 import de.reclinarka.objects.interaction.InteractionListener;
+import de.reclinarka.objects.interaction.InteractionRegistry;
+import de.reclinarka.objects.interaction.Repeater;
 import de.reclinarka.util.Count;
 import de.reclinarka.util.InteractableCreator;
 import de.reclinarka.util.WriterReader;
@@ -27,8 +30,15 @@ public class InstanceManager { //supposed to manage and select between different
     private Window window;
     private Slate slate;
     private InteractionListener interactionListener = new InteractionListener(ID + "_listener");
+    private InteractionRegistry globalInteractions = new InteractionRegistry( ID + "_globalInteractions");
+    private Repeater globalRepeater = new Repeater(globalInteractions, ID + "_repeater");
+
+    public void addGlobalRegistry(Interactable interactable){
+        globalInteractions.addRegistry(interactable);
+    }
 
     public void addInstance(Instance instance){
+        instance.getInteractionRegistry().addRegistry(globalRepeater);
         instances.add(instance);
         instance.setParent(this);
     }
@@ -37,7 +47,7 @@ public class InstanceManager { //supposed to manage and select between different
         slate.addMouseListener(interactionListener);
         slate.addMouseMotionListener(interactionListener);
         slate.addMouseWheelListener(interactionListener);
-        slate.addKeyListener(interactionListener);
+        window.addKeyListener(interactionListener);
         Instance instance = getInstance(ID);
         if(instance == null)
             return;

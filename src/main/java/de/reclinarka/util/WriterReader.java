@@ -1,8 +1,7 @@
 package de.reclinarka.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.reclinarka.Main;
-import de.reclinarka.objects.Test;
+import de.reclinarka.objects.testing.Test;
 
 import java.io.File;
 import java.io.IOException;

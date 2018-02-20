@@ -1,7 +1,8 @@
-package de.reclinarka.objects;
+package de.reclinarka.objects.testing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.reclinarka.graphics.drawing.Drawable;
+import de.reclinarka.objects.Writeable;
 import de.reclinarka.objects.framework.properties.colors.ColorConstant;
 import de.reclinarka.objects.framework.properties.colors.Colorset;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
@@ -17,9 +18,8 @@ import java.io.File;
 import java.io.IOException;
 
 import static de.reclinarka.objects.framework.properties.colors.ColorConstant.*;
-import static de.reclinarka.objects.interaction.EventType.*;
 
-public class Test implements Drawable,Interactable, Writeable{
+public class Test implements Drawable,Interactable, Writeable {
     public Test(){
 
     }
@@ -34,12 +34,21 @@ public class Test implements Drawable,Interactable, Writeable{
     private ColorConstant currentColor = MAIN;
     private ColorConstant currentBorder = ALT_BORDER;
 
+    public RectDimension getDimension() {
+        return dimension;
+    }
+
+    public Colorset getColors() {
+        return colors;
+    }
+
     @Override
     public void mouseEvent(MouseEvent e, EventType type,String ID) {
         switch (type){
             case Mouse_Clicked:
                 if(dimension.containsPoint(new Coordinate(e.getX(),e.getY()))){
                     System.out.println("clicked");
+                    reciever.commandThrown(new String[]{ID,"","test_command"},ID);
 
                 }
                 return;
@@ -55,14 +64,18 @@ public class Test implements Drawable,Interactable, Writeable{
 
     @Override
     public void keyEvent(KeyEvent e, EventType type,String ID) {
-
+        System.out.println(e.getKeyCode());
     }
 
     private InteractionRegistry reciever;
 
+    public InteractionRegistry getReciever() {
+        return reciever;
+    }
+
     @Override
     public void commandThrown(String[] command,String ID) {
-        System.out.println(command);
+        System.out.println(command[2]);
     }
 
     @Override

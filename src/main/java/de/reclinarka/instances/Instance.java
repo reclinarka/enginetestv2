@@ -37,6 +37,21 @@ public class Instance{
         this.interactionRegistry = interactionRegistry;
     }
 
+    public void addItem(Drawable drawable, Interactable interactable){
+        if(drawable != null){
+            drawableRegister.addRegistry(drawable);
+        }
+        if(interactable != null){
+            interactionRegistry.addRegistry(interactable);
+        }
+    }
+
+    public void addGlobalItem(Drawable drawable, Interactable interactable){
+        addItem(drawable,null);
+        parent.addGlobalRegistry(interactable);
+
+    }
+
     public DrawableRegister getDrawableRegister() {
         return drawableRegister;
     }

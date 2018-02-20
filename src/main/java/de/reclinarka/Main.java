@@ -1,26 +1,18 @@
 package de.reclinarka;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.corba.se.impl.presentation.rmi.DynamicMethodMarshallerImpl;
-import de.reclinarka.graphics.drawing.Drawable;
 import de.reclinarka.graphics.drawing.DrawableRegister;
 import de.reclinarka.graphics.frame.type.Slate;
-import de.reclinarka.graphics.registers.Register;
 import de.reclinarka.instances.Instance;
 import de.reclinarka.instances.InstanceManager;
 import de.reclinarka.objects.Creator;
-import de.reclinarka.objects.Test;
+import de.reclinarka.objects.testing.CreatorTest;
+import de.reclinarka.objects.testing.Test;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
 import de.reclinarka.objects.framework.properties.size.RectDimension;
 import de.reclinarka.objects.interaction.InteractionListener;
 import de.reclinarka.objects.interaction.InteractionRegistry;
-import de.reclinarka.util.WriterReader;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,26 +23,31 @@ public class Main {
     public static void test2(){
         Slate editorPanel = new Slate();
         de.reclinarka.graphics.frame.Window window1 = new de.reclinarka.graphics.frame.Window("Editor Window",editorPanel,1200,
-                600,100,0,false);
+                600,100,0,true);
         InstanceManager window1_manager = new InstanceManager("window1_manager",window1,editorPanel);
-        window1_manager.addInstance(testInstance1());
+        window1_manager.addInstance(testInstance1(window1_manager));
         window1_manager.init("editor_main");
         while (true){
             window1.repaint();
         }
     }
 
-    public static Instance testInstance1(){
+    public static Instance testInstance1(InstanceManager manager){
         DrawableRegister register = new DrawableRegister("editorWindow");
         InteractionRegistry registry = new InteractionRegistry("editorInteractables");
 
         Test test = new Test("testobj",new RectDimension(20,20,new Coordinate(20,20)));
-
-        register.addRegistry(test);
-
-        registry.addRegistry(test);
+        CreatorTest creatorTest = new CreatorTest();
+        Creator creator = new Creator(null,"creator");
 
         Instance instance = new Instance("editor_main",register,registry);
+        instance.setParent(manager);
+
+        creator.setInstance(instance);
+
+        instance.addItem(creatorTest,creatorTest);
+        instance.addItem(test,test);
+        instance.addGlobalItem(null,creator);
         return instance;
     }
 
@@ -70,9 +67,9 @@ public class Main {
         editorInteractables.addRegistry(test);
         editorDrawings.addRegistry(test);
 
-        Creator creator = new Creator(editorInteractables,editorDrawings,"creator");
-        editorInteractables.addRegistry(creator);
-        editorDrawings.addRegistry(creator);
+        //Creator creator = new Creator(editorInteractables,editorDrawings,"creator");
+        //editorInteractables.addRegistry(creator);
+        //editorDrawings.addRegistry(creator);
 
         InteractionRegistry buttonInteractables = new InteractionRegistry("buttonInteractables");
         InteractionListener buttonListener = new InteractionListener(buttonInteractables,"buttonPanel");
