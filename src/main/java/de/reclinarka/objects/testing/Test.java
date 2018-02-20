@@ -32,7 +32,7 @@ public class Test implements Drawable,Interactable, Writeable {
     private RectDimension dimension;
     private Colorset colors = Colorset.defaultSet;
     private ColorConstant currentColor = MAIN;
-    private ColorConstant currentBorder = ALT_BORDER;
+    private ColorConstant currentBorder = BORDER;
 
     public RectDimension getDimension() {
         return dimension;

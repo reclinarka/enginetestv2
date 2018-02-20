@@ -37,7 +37,7 @@ public class Main {
         InteractionRegistry registry = new InteractionRegistry("editorInteractables");
 
         Test test = new Test("testobj",new RectDimension(20,20,new Coordinate(20,20)));
-        CreatorTest creatorTest = new CreatorTest();
+        CreatorTest creatorTest = new CreatorTest("creator");
         Creator creator = new Creator(null,"creator");
 
         Instance instance = new Instance("editor_main",register,registry);

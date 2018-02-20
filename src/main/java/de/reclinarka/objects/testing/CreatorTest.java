@@ -8,16 +8,22 @@ import de.reclinarka.objects.interaction.InteractionRegistry;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ConcurrentModificationException;
 
 public class CreatorTest extends Test {
 
-    public CreatorTest() {
+    public CreatorTest(String target) {
         super();
+        this.target = target;
     }
 
-    public CreatorTest(String ID, RectDimension dimension) {
+    public CreatorTest(String target,String ID, RectDimension dimension) {
         super(ID, dimension);
+        this.target = target;
     }
+
+    private String target;
+    private int count = 0;
 
     @Override
     public void keyEvent(KeyEvent e, EventType type, String ID) {
@@ -25,9 +31,14 @@ public class CreatorTest extends Test {
         switch (e.getKeyChar()){
             case 't':
                 //new RectDimension(width,height,new Coordinate(x,y));
-                getReciever().commandThrown(new String[]{ "sourceID" , "targetID" , "create" , "global" , "Test.java" ,
-                        "testID_" + ( (int) (Math.random()*1000000)+1 ) , "" + ( (int) (Math.random()*200)+1 ) ,
-                        "" + ( (int) (Math.random()*200)+1 ) , "" + ( (int) (Math.random()*1500)+1 ) , "" + ( (int) (Math.random()*800)+1 )} , getID());
+                count++;
+
+                    getReciever().commandThrown(new String[]{ "sourceID" , target , "create" , "global" , "Test.java" ,
+                            "testID_" + ( (int) (Math.random()*1000000)+1 ) , "" + ( (int) (Math.random()*190)+10 ) ,
+                            "" + ( (int) (Math.random()*190)+10 ) , "" + ( (int) (Math.random()*1500)+1 ) ,
+                            "" + ( (int) (Math.random()*800)+1 )} , getID());
+
+
                 break;
 
         }
@@ -50,7 +61,8 @@ public class CreatorTest extends Test {
 
     @Override
     public void exec(Graphics g) {
-
+        g.setColor(Color.RED);
+        g.drawString("Created::" + count,10,10);
     }
 
 

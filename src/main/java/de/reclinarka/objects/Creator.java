@@ -92,31 +92,33 @@ public class Creator implements Drawable,Interactable{
 
     @Override
     public void commandThrown(String[] command, String ID) {
-        switch (command[2]){
-            case "create" :
-                switch (command[3]){
-                    case "global":
-                        switch (command[4]){
-                            case "Test.java":
-                                Test add = new Test(command[5], new RectDimension(Integer.parseInt(command[6]),
-                                        Integer.parseInt(command[7]),new Coordinate(Integer.parseInt(command[8]),
-                                        Integer.parseInt(command[9]))));
-                                instance.addGlobalItem(add,add);
-                                break;
-                        }
-                        break;
-                    case "local":
-                        switch (command[4]){
-                            case "Test.java":
-                                Test add = new Test(command[5], new RectDimension(Integer.getInteger(command[6]),
-                                        Integer.getInteger(command[7]),new Coordinate(Integer.getInteger(command[8]),
-                                        Integer.getInteger(command[9]))));
-                                instance.addItem(add,add);
-                                break;
-                        }
-                        break;
-                }
-                break;
+        if(command[1].contentEquals(this.ID)) {
+            switch (command[2]) {
+                case "create":
+                    switch (command[3]) {
+                        case "global":
+                            switch (command[4]) {
+                                case "Test.java":
+                                    Test add = new Test(command[5], new RectDimension(Integer.parseInt(command[6]),
+                                            Integer.parseInt(command[7]), new Coordinate(Integer.parseInt(command[8]),
+                                            Integer.parseInt(command[9]))));
+                                    instance.addGlobalItem(add, add);
+                                    break;
+                            }
+                            break;
+                        case "local":
+                            switch (command[4]) {
+                                case "Test.java":
+                                    Test add = new Test(command[5], new RectDimension(Integer.getInteger(command[6]),
+                                            Integer.getInteger(command[7]), new Coordinate(Integer.getInteger(command[8]),
+                                            Integer.getInteger(command[9]))));
+                                    instance.addItem(add, add);
+                                    break;
+                            }
+                            break;
+                    }
+                    break;
+            }
         }
 
     }
