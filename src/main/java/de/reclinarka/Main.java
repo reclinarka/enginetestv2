@@ -5,6 +5,10 @@ import de.reclinarka.graphics.frame.type.Slate;
 import de.reclinarka.instances.Instance;
 import de.reclinarka.instances.InstanceManager;
 import de.reclinarka.objects.Creator;
+import de.reclinarka.objects.gameObjects.GameInstance;
+import de.reclinarka.objects.gameObjects.solid.RectSolid;
+import de.reclinarka.objects.gameObjects.solid.StoneMoss;
+import de.reclinarka.objects.gameObjects.solid.StonePlain;
 import de.reclinarka.objects.testing.CreatorTest;
 import de.reclinarka.objects.testing.Test;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
@@ -13,6 +17,7 @@ import de.reclinarka.objects.interaction.InteractionListener;
 import de.reclinarka.objects.interaction.InteractionRegistry;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,8 +30,8 @@ public class Main {
         de.reclinarka.graphics.frame.Window window1 = new de.reclinarka.graphics.frame.Window("Editor Window",editorPanel,1200,
                 600,100,0,true);
         InstanceManager window1_manager = new InstanceManager("window1_manager",window1,editorPanel);
-        window1_manager.addInstance(testInstance1(window1_manager));
-        window1_manager.init("editor_main");
+        window1_manager.addInstance(gameInstance1(window1_manager));
+        window1_manager.init("game_main");
         while (true){
             window1.repaint();
         }
@@ -48,6 +53,30 @@ public class Main {
         instance.addItem(creatorTest,creatorTest);
         instance.addItem(test,test);
         instance.addGlobalItem(null,creator);
+        return instance;
+    }
+
+    public static Instance gameInstance1(InstanceManager manager){
+        DrawableRegister register = new DrawableRegister("editorWindow");
+        InteractionRegistry registry = new InteractionRegistry("editorInteractables");
+
+        ArrayList<RectSolid> creator = new ArrayList<>();
+        for(int i = 0; i < 10; i++){
+            creator.add(new StoneMoss("testStone_" + i,new Coordinate(100 + (50*i),100)));
+        }
+        for(int i = 0; i < 10; i++){
+            for(int c = 0; c < 10; c++) {
+                creator.add(new StonePlain("testStone_" + i, new Coordinate(100 + (50 * c), 150 + (50 * i))));
+            }
+        }
+
+        GameInstance instance = new GameInstance("game_main",register,registry,10000,5000,500);
+        instance.setParent(manager);
+
+        creator.forEach(f -> {
+            instance.addSolid(f);
+        });
+
         return instance;
     }
 

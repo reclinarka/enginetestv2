@@ -27,7 +27,9 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
         getRegister().forEach(f -> {
             try {
                 f.mouseEvent(e, type, ID);
-            } catch (Exception exc) {}
+            } catch (Exception exc) {
+                exc.printStackTrace();
+            }
         });
     }
 
@@ -36,7 +38,9 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
         getRegister().forEach(f -> {
             try {
                 f.keyEvent(e, type, ID);
-            } catch (Exception exc) {}
+            } catch (Exception exc) {
+                exc.printStackTrace();
+            }
         });
     }
 
@@ -50,7 +54,9 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
         getRegister().forEach(f -> {
             try {
                 f.commandThrown(command,ID);
-            } catch (Exception e ){}
+            } catch (Exception e ){
+                e.printStackTrace();
+            }
         });
     }
 

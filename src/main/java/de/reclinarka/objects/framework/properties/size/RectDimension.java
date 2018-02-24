@@ -39,7 +39,17 @@ public class RectDimension implements Dimension{
 
     @Override
     public boolean intersectsDimension(Dimension dimension) {
-
+        switch (dimension.getClass() + ""){
+            case "class de.reclinarka.objects.framework.properties.size.RectDimension":
+                RectDimension newDimension = (RectDimension) dimension;
+                if   (  (  pos.getX()  <  (newDimension.getPos().getX() + width)  )  &&
+                        (   (pos.getX()+width)   >  newDimension.getPos().getX()  )  &&
+                        (  pos.getY()  <  (newDimension.getPos().getY() + height)  )  &&
+                        (  (pos.getY() + height)  >  newDimension.getPos().getY()  )  ) {
+                    return true;
+                }
+                break;
+        }
         return false;
     }
 }

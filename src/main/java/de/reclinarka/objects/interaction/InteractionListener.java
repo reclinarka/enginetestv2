@@ -31,6 +31,7 @@ public class InteractionListener implements MouseListener, MouseMotionListener, 
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println(e.getKeyCode());
         registry.keyEvent(e,EventType.Key_Pressed,ID);
     }
 
@@ -43,13 +44,15 @@ public class InteractionListener implements MouseListener, MouseMotionListener, 
     public void mouseClicked(MouseEvent e) {
         try {
             registry.mouseEvent(e,EventType.Mouse_Clicked,ID);
-        } catch (ConcurrentModificationException ex) {}
-        System.out.println("x_"+ e.getX() + "; y_" + e.getY());
+        } catch (ConcurrentModificationException ex) {
+            ex.printStackTrace();
+        }
 
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        System.out.println("x_"+ e.getX() + "; y_" + e.getY());
         registry.mouseEvent(e,EventType.Mouse_Pressed,ID);
     }
 
