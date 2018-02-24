@@ -6,6 +6,8 @@ import de.reclinarka.instances.Instance;
 import de.reclinarka.instances.InstanceManager;
 import de.reclinarka.objects.Creator;
 import de.reclinarka.objects.gameObjects.GameInstance;
+import de.reclinarka.objects.gameObjects.debugging.ViewDebugger;
+import de.reclinarka.objects.gameObjects.entity.SwordTest;
 import de.reclinarka.objects.gameObjects.solid.RectSolid;
 import de.reclinarka.objects.gameObjects.solid.StoneMoss;
 import de.reclinarka.objects.gameObjects.solid.StonePlain;
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(new Test().getClass() + "");
+        System.out.println(new GameInstance().getClass() + "");
         test2();
     }
 
@@ -32,6 +34,9 @@ public class Main {
         InstanceManager window1_manager = new InstanceManager("window1_manager",window1,editorPanel);
         window1_manager.addInstance(gameInstance1(window1_manager));
         window1_manager.init("game_main");
+        Toolkit tk = window1.getToolkit();
+        window1.setCursor(tk.createCustomCursor(tk.getImage("resources\\Cursor.png"),new Point(16,16),"test"));
+
         while (true){
             window1.repaint();
         }
@@ -61,17 +66,24 @@ public class Main {
         InteractionRegistry registry = new InteractionRegistry("editorInteractables");
 
         ArrayList<RectSolid> creator = new ArrayList<>();
-        for(int i = 0; i < 10; i++){
-            creator.add(new StoneMoss("testStone_" + i,new Coordinate(100 + (50*i),100)));
+        for(int i = 0; i < 100; i++){
+            creator.add(new StoneMoss("testStone_" + i,new Coordinate(-1000 + (50*i),200)));
         }
         for(int i = 0; i < 10; i++){
-            for(int c = 0; c < 10; c++) {
-                creator.add(new StonePlain("testStone_" + i, new Coordinate(100 + (50 * c), 150 + (50 * i))));
+            for(int c = 0; c < 100; c++) {
+                creator.add(new StonePlain("testStone_" + i, new Coordinate(-1000 + (50 * c), 250 + (50 * i))));
             }
         }
 
+        SwordTest swordTest = new SwordTest(new Coordinate(10,10));
+
         GameInstance instance = new GameInstance("game_main",register,registry,10000,5000,500);
         instance.setParent(manager);
+
+
+        ViewDebugger viewDebugger = new ViewDebugger(instance);
+        instance.addInteractable(viewDebugger);
+        instance.addEntity(swordTest,swordTest);
 
         creator.forEach(f -> {
             instance.addSolid(f);

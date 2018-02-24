@@ -1,20 +1,34 @@
 package de.reclinarka.objects.interaction;
 
+import de.reclinarka.instances.Instance;
+import de.reclinarka.objects.gameObjects.GameInstance;
+
 import java.awt.event.*;
 import java.util.ConcurrentModificationException;
 
 public class InteractionListener implements MouseListener, MouseMotionListener, MouseWheelListener, KeyListener { //Listener for mouse and keyboard
 
-    public InteractionListener(InteractionRegistry interactionRegistry,String ID){
+    public InteractionListener(InteractionRegistry interactionRegistry, String ID) {
         registry = interactionRegistry;
         this.ID = ID;
     }
-    public InteractionListener(String ID){
+
+    public InteractionListener(String ID) {
         this.ID = ID;
     }
 
+    private boolean gameMode;
+    private GameInstance instance;
     private InteractionRegistry registry;
     private String ID;
+
+    public void setGameMode(boolean gameMode) {
+        this.gameMode = gameMode;
+    }
+
+    public void setInstance(GameInstance instance) {
+        this.instance = instance;
+    }
 
     public void setID(String ID) {
         this.ID = ID;
@@ -26,39 +40,58 @@ public class InteractionListener implements MouseListener, MouseMotionListener, 
 
     @Override
     public void keyTyped(KeyEvent e) {
-        registry.keyEvent(e,EventType.Key_Typed,ID);
+        if (gameMode) {
+            instance.keyEvent(e,EventType.Key_Typed,ID);
+        } else {
+            registry.keyEvent(e, EventType.Key_Typed, ID);
+        }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         System.out.println(e.getKeyCode());
-        registry.keyEvent(e,EventType.Key_Pressed,ID);
+        if (gameMode) {
+            instance.keyEvent(e,EventType.Key_Pressed,ID);
+        } else {
+            registry.keyEvent(e, EventType.Key_Pressed, ID);
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        registry.keyEvent(e,EventType.Key_Released,ID);
+        if (gameMode) {
+            instance.keyEvent(e,EventType.Key_Released,ID);
+        } else {
+            registry.keyEvent(e, EventType.Key_Released, ID);
+        }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        try {
-            registry.mouseEvent(e,EventType.Mouse_Clicked,ID);
-        } catch (ConcurrentModificationException ex) {
-            ex.printStackTrace();
+        if (gameMode) {
+            instance.mouseEvent(e,EventType.Mouse_Clicked,ID);
+        } else {
+            registry.mouseEvent(e, EventType.Mouse_Clicked, ID);
         }
-
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("x_"+ e.getX() + "; y_" + e.getY());
-        registry.mouseEvent(e,EventType.Mouse_Pressed,ID);
+        System.out.println("x_" + e.getX() + "; y_" + e.getY());
+        if (gameMode) {
+            instance.mouseEvent(e,EventType.Mouse_Pressed,ID);
+        } else {
+            registry.mouseEvent(e, EventType.Mouse_Pressed, ID);
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        registry.mouseEvent(e,EventType.Mouse_Released,ID);
+        if (gameMode) {
+            instance.mouseEvent(e,EventType.Mouse_Released,ID);
+        } else {
+            registry.mouseEvent(e, EventType.Mouse_Released, ID);
+        }
     }
 
     @Override
@@ -71,21 +104,38 @@ public class InteractionListener implements MouseListener, MouseMotionListener, 
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        registry.mouseEvent(e,EventType.Mouse_Dragged,ID);
+        if (gameMode) {
+            instance.mouseEvent(e,EventType.Mouse_Dragged,ID);
+        } else {
+            registry.mouseEvent(e, EventType.Mouse_Dragged, ID);
+        }
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        registry.mouseEvent(e,EventType.Mouse_Moved,ID);
+        if (gameMode) {
+            instance.mouseEvent(e,EventType.Mouse_Moved,ID);
+        } else {
+            registry.mouseEvent(e, EventType.Mouse_Moved, ID);
+        }
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if(e.getPreciseWheelRotation() > 0){
-            registry.mouseEvent(e,EventType.Wheel_Down,ID);
+        if (gameMode) {
+            if (e.getPreciseWheelRotation() > 0) {
+                instance.mouseEvent(e, EventType.Wheel_Down, ID);
+            } else {
+                instance.mouseEvent(e, EventType.Wheel_Up, ID);
+            }
         } else {
-            registry.mouseEvent(e,EventType.Wheel_Up,ID);
+            if (e.getPreciseWheelRotation() > 0) {
+                registry.mouseEvent(e, EventType.Wheel_Down, ID);
+            } else {
+                registry.mouseEvent(e, EventType.Wheel_Up, ID);
+            }
         }
+
         System.out.println(e.getPreciseWheelRotation());
     }
 }

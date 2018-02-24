@@ -3,6 +3,7 @@ package de.reclinarka.instances;
 import de.reclinarka.graphics.frame.Window;
 import de.reclinarka.graphics.frame.type.Slate;
 import de.reclinarka.objects.Writeable;
+import de.reclinarka.objects.gameObjects.GameInstance;
 import de.reclinarka.objects.interaction.Interactable;
 import de.reclinarka.objects.interaction.InteractionListener;
 import de.reclinarka.objects.interaction.InteractionRegistry;
@@ -48,21 +49,29 @@ public class InstanceManager { //supposed to manage and select between different
         slate.addMouseMotionListener(interactionListener);
         slate.addMouseWheelListener(interactionListener);
         window.addKeyListener(interactionListener);
-        Instance instance = getInstance(ID);
-        if(instance == null)
-            return;
-        interactionListener.setRegistry(instance.getInteractionRegistry());
-        slate.setContent(instance.getDrawableRegister());
-        activeInstance = instance;
+        call(ID);
     }
 
     public void call(String ID){
         Instance instance = getInstance(ID);
         if(instance == null)
             return;
-        interactionListener.setRegistry(instance.getInteractionRegistry());
-        slate.setContent(instance.getDrawableRegister());
         activeInstance = instance;
+
+        if( ("" + instance.getClass()).contentEquals("class de.reclinarka.objects.gameObjects.GameInstance") ){
+            slate.setInstance( (GameInstance) instance );
+            slate.setGameMode(true);
+            interactionListener.setInstance( (GameInstance) instance);
+            interactionListener.setGameMode(true);
+            return;
+        } else {
+            interactionListener.setGameMode(false);
+            slate.setGameMode(false);
+            interactionListener.setRegistry(instance.getInteractionRegistry());
+        }
+        slate.setContent(instance.getDrawableRegister());
+
+
     }
 
     public String getID() {
