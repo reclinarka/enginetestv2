@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 public class InteractionRegistry extends Register<Interactable> implements Interactable{ //interface for communication
 
@@ -23,12 +24,20 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
 
     @Override
     public void mouseEvent(MouseEvent e, EventType type,String ID) {
-        getRegister().forEach(f -> f.mouseEvent(e, type, ID));
+        getRegister().forEach(f -> {
+            try {
+                f.mouseEvent(e, type, ID);
+            } catch (Exception exc) {}
+        });
     }
 
     @Override
     public void keyEvent(KeyEvent e, EventType type,String ID) {
-        getRegister().forEach(f -> f.keyEvent(e,type,ID));
+        getRegister().forEach(f -> {
+            try {
+                f.keyEvent(e, type, ID);
+            } catch (Exception exc) {}
+        });
     }
 
     @Override
@@ -38,7 +47,11 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
 
     @Override
     public void commandThrown(String[] command,String ID) {
-        getRegister().forEach(f -> f.commandThrown(command,ID));
+        getRegister().forEach(f -> {
+            try {
+                f.commandThrown(command,ID);
+            } catch (Exception e ){}
+        });
     }
 
 

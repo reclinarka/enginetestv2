@@ -2,6 +2,7 @@ package de.reclinarka.objects;
 
 import de.reclinarka.graphics.drawing.Drawable;
 import de.reclinarka.instances.Instance;
+import de.reclinarka.instances.InstanceManager;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
 import de.reclinarka.objects.framework.properties.size.RectDimension;
 import de.reclinarka.objects.interaction.EventType;
@@ -16,25 +17,21 @@ import java.io.IOException;
 
 public class Creator implements Drawable,Interactable{
 
-    public Creator(Instance instance, String ID){
-        this.instance = instance;
+    public Creator(InstanceManager manager, String ID){
+        this.manager = manager;
         this.ID = ID;
     }
 
-    private Instance instance;
+    private InstanceManager manager;
     private boolean activatet = true;
     private String ID;
-
-    public void setInstance(Instance instance) {
-        this.instance = instance;
-    }
 
     public void setActivatet(boolean activatet) {
         this.activatet = activatet;
     }
 
     public Instance getInstance() {
-        return instance;
+        return manager.getActiveInstance();
     }
 
     @Override
@@ -51,20 +48,15 @@ public class Creator implements Drawable,Interactable{
         activatet = activatet != true;
     }
 
-    public void addTest(String ID,RectDimension dimension){
-        Test test = new Test(ID,dimension);
-    }
-
-
     @Override
     public void mouseEvent(MouseEvent e, EventType type, String ID) {
         if (activatet) {
             switch (type) {
-                case Mouse_Clicked:
-                    Test test = new Test("", new RectDimension(20, 20, new Coordinate(e.getX(), e.getY())));
+                case Mouse_Pressed:
+                    Test test = new Test("", new RectDimension(20, 20, new Coordinate(e.getX(), e.getY())),manager);
                     try {
-                        instance.addItem(test,test);
-                        System.out.println("created:" + test.getClass() + " and added to Instance:" + instance.getID());
+                        getInstance().addItem(test,test);
+                        System.out.println("created:" + test.getClass() + " and added to Instance:" + getInstance().getID());
                     } catch (Exception exc) {}
 
 
@@ -101,8 +93,8 @@ public class Creator implements Drawable,Interactable{
                                 case "Test.java":
                                     Test add = new Test(command[5], new RectDimension(Integer.parseInt(command[6]),
                                             Integer.parseInt(command[7]), new Coordinate(Integer.parseInt(command[8]),
-                                            Integer.parseInt(command[9]))));
-                                    instance.addGlobalItem(add, add);
+                                            Integer.parseInt(command[9]))),manager);
+                                    manager.getActiveInstance().addGlobalItem(add, add);
                                     break;
                             }
                             break;
@@ -111,8 +103,8 @@ public class Creator implements Drawable,Interactable{
                                 case "Test.java":
                                     Test add = new Test(command[5], new RectDimension(Integer.getInteger(command[6]),
                                             Integer.getInteger(command[7]), new Coordinate(Integer.getInteger(command[8]),
-                                            Integer.getInteger(command[9]))));
-                                    instance.addItem(add, add);
+                                            Integer.getInteger(command[9]))),manager);
+                                    manager.getActiveInstance().addItem(add, add);
                                     break;
                             }
                             break;

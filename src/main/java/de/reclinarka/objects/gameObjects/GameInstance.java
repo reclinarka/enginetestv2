@@ -1,8 +1,9 @@
-package de.reclinarka.instances.physical;
+package de.reclinarka.objects.gameObjects;
 
 import de.reclinarka.graphics.drawing.DrawableRegister;
 import de.reclinarka.instances.Instance;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
+import de.reclinarka.objects.framework.properties.size.RectDimension;
 import de.reclinarka.objects.interaction.InteractionRegistry;
 
 import java.util.ArrayList;
@@ -15,6 +16,18 @@ public class GameInstance extends Instance {
         super(ID, register, registry);
     }
 
-    private Coordinate viewPos = new Coordinate(0,0);
+    private RectDimension loadedArea;
+    private RectDimension viewWindow;
     private ArrayList<DrawableRegister> layers;
+
+    public RectDimension getViewWindow() {
+        return viewWindow;
+    }
+
+
+
+    @Override
+    public DrawableRegister getDrawableRegister() {
+        return super.getDrawableRegister();
+    }
 }

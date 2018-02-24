@@ -2,6 +2,7 @@ package de.reclinarka.objects.testing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.reclinarka.graphics.drawing.Drawable;
+import de.reclinarka.instances.InstanceManager;
 import de.reclinarka.objects.Writeable;
 import de.reclinarka.objects.framework.properties.colors.ColorConstant;
 import de.reclinarka.objects.framework.properties.colors.Colorset;
@@ -23,11 +24,13 @@ public class Test implements Drawable,Interactable, Writeable {
     public Test(){
 
     }
-    public Test(String ID,RectDimension dimension){
+    public Test(String ID,RectDimension dimension, InstanceManager manager){
+        this.manager = manager;
         this.ID = ID;
         this.dimension = dimension;
     }
 
+    private InstanceManager manager;
     private String ID;
     private RectDimension dimension;
     private Colorset colors = Colorset.defaultSet;
@@ -40,6 +43,14 @@ public class Test implements Drawable,Interactable, Writeable {
 
     public Colorset getColors() {
         return colors;
+    }
+
+    public InstanceManager getManager() {
+        return manager;
+    }
+
+    public void setManager(InstanceManager manager) {
+        this.manager = manager;
     }
 
     @Override
@@ -64,7 +75,7 @@ public class Test implements Drawable,Interactable, Writeable {
 
     @Override
     public void keyEvent(KeyEvent e, EventType type,String ID) {
-        System.out.println(e.getKeyCode());
+        //System.out.println(e.getKeyCode());
     }
 
     private InteractionRegistry reciever;

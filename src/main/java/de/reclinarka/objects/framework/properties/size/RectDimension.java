@@ -36,4 +36,10 @@ public class RectDimension implements Dimension{
         }
         return false;
     }
+
+    @Override
+    public boolean intersectsDimension(Dimension dimension) {
+
+        return false;
+    }
 }

@@ -16,7 +16,7 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(Test.class);
+        System.out.println(new Test().getClass() + "");
         test2();
     }
 
@@ -36,14 +36,14 @@ public class Main {
         DrawableRegister register = new DrawableRegister("editorWindow");
         InteractionRegistry registry = new InteractionRegistry("editorInteractables");
 
-        Test test = new Test("testobj",new RectDimension(20,20,new Coordinate(20,20)));
-        CreatorTest creatorTest = new CreatorTest("creator");
-        Creator creator = new Creator(null,"creator");
+        Test test = new Test("testobj",new RectDimension(20,20,new Coordinate(20,20)),manager);
+        CreatorTest creatorTest = new CreatorTest("creator",manager);
+        Creator creator = new Creator(manager,"creator");
 
         Instance instance = new Instance("editor_main",register,registry);
         instance.setParent(manager);
 
-        creator.setInstance(instance);
+
 
         instance.addItem(creatorTest,creatorTest);
         instance.addItem(test,test);
@@ -52,7 +52,7 @@ public class Main {
     }
 
     public static void test(){
-        Test test = new Test("testobj",new RectDimension(20,20,new Coordinate(20,20)));
+        Test test = new Test("testobj",new RectDimension(20,20,new Coordinate(20,20)), null);
 
         DrawableRegister editorDrawings = new DrawableRegister("editorWindow");
         InteractionRegistry editorInteractables = new InteractionRegistry("editorInteractables");
