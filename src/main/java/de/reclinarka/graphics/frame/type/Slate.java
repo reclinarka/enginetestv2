@@ -2,6 +2,8 @@ package de.reclinarka.graphics.frame.type;
 
 import de.reclinarka.graphics.drawing.DrawableRegister;
 import de.reclinarka.graphics.filter.BlurrFilter;
+import de.reclinarka.graphics.filter.ColorFilter;
+import de.reclinarka.graphics.filter.DistortFilter;
 import de.reclinarka.graphics.filter.Filter;
 import de.reclinarka.objects.gameObjects.GameInstance;
 import de.reclinarka.util.ColorStorage;
@@ -13,6 +15,9 @@ import java.util.ArrayList;
 
 public class Slate extends JPanel { //content for the Window
     public Slate(){
+        //filters.add(new ColorFilter("testFilter",new Color(255,191,255,20)));
+        filters.add(new DistortFilter("testFilter",0.1));
+        //filters.add(new BlurrFilter("testFilter",10));
     }
     public Slate(DrawableRegister content){
         this.content = content;

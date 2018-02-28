@@ -4,8 +4,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class BlurrFilter extends Filter {
-    public BlurrFilter(String ID) {
+    public BlurrFilter(String ID, int radius) {
         super(ID);
+        this.radius = radius;
     }
 
     private int radius = 1;
