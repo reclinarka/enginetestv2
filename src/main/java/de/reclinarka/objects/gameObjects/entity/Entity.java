@@ -19,10 +19,23 @@ import java.io.IOException;
 public class Entity implements Drawable,Interactable{ // has to update (physics-wise) on the command "game_update"
 
 
+    public Entity(String ID,RectDimension hitbox,String texture){
+        this.ID = ID;
+        this.hitbox = hitbox;
+        setTexture(texture);
+    }
 
     private String ID;
     private RectDimension hitbox;
     private BufferedImage texture;
+
+    public BufferedImage getTexture() {
+        return texture;
+    }
+
+    public RectDimension getHitbox() {
+        return hitbox;
+    }
 
     private void setTexture(String texture){ // "\\resources" is added to the texture path, which is formatted: "\\<subdirectories>\\<file>.png"
         try {
@@ -48,7 +61,8 @@ public class Entity implements Drawable,Interactable{ // has to update (physics-
     }
 
     @Override
-    public void exec(Graphics L) {
+    public void exec(Graphics g) {
+
 
     }
 

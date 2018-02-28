@@ -1,4 +1,4 @@
-package de.reclinarka.objects;
+package de.reclinarka.objects.util;
 
 import de.reclinarka.graphics.drawing.Drawable;
 import de.reclinarka.instances.Instance;

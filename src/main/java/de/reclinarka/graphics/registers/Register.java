@@ -1,5 +1,6 @@
 package de.reclinarka.graphics.registers;
 
+import de.reclinarka.graphics.drawing.Drawable;
 import de.reclinarka.util.WriterReader;
 
 import java.util.ArrayList;

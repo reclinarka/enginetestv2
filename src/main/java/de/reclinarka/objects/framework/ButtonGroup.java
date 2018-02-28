@@ -9,6 +9,16 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class ButtonGroup implements Interactable{
+
+
+
+    private String ID;
+
+    @Override
+    public String getID() {
+        return ID;
+    }
+
     @Override
     public void mouseEvent(MouseEvent e, EventType type, String ID) {
 

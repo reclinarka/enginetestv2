@@ -5,6 +5,7 @@ import de.reclinarka.graphics.drawing.DrawableRegister;
 import de.reclinarka.instances.Instance;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
 import de.reclinarka.objects.framework.properties.size.RectDimension;
+import de.reclinarka.objects.gameObjects.entity.Player;
 import de.reclinarka.objects.gameObjects.solid.RectSolid;
 import de.reclinarka.objects.interaction.EventType;
 import de.reclinarka.objects.interaction.Interactable;
@@ -13,6 +14,7 @@ import de.reclinarka.objects.interaction.InteractionRegistry;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 
 public class GameInstance extends Instance implements Interactable {
@@ -38,6 +40,7 @@ public class GameInstance extends Instance implements Interactable {
         });
     }
 
+    private Player player;
     private int width;
     private int height;
     private int chunkSize;
@@ -53,6 +56,11 @@ public class GameInstance extends Instance implements Interactable {
         return chunks.stream().filter(f -> f.getID().contentEquals(ID)).findFirst().map(f -> f).orElse(null);
     }
 
+    public void addPlayer(Player player) {
+        this.player = player;
+        addInteractable(player);
+    }
+
     public void addSolid(RectSolid solid){
         Chunk temp;
         for(int i = 0; i < chunks.size(); i++){
@@ -63,6 +71,10 @@ public class GameInstance extends Instance implements Interactable {
                 return;
             }
         }
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void addInteractable(Interactable interactable){
@@ -77,8 +89,17 @@ public class GameInstance extends Instance implements Interactable {
 
 
     public void draw(Graphics g){
-        g.translate(viewWindow.getPos().getX(),viewWindow.getPos().getY());
-        getDrawableRegister().draw(g);
+        if (player != null) {
+            viewWindow.getPos().setX(0-player.getPosition().getX() + (getParent().getSlate().getWidth() / 2));
+            viewWindow.getPos().setY(0-player.getPosition().getY() + (getParent().getSlate().getHeight() / 2));
+            g.translate(viewWindow.getPos().getX(),viewWindow.getPos().getY());
+            player.exec(g);
+            getDrawableRegister().draw(g);
+        } else {
+            g.translate(viewWindow.getPos().getX(),viewWindow.getPos().getY());
+            getDrawableRegister().draw(g);
+        }
+
 
     }
 
@@ -101,7 +122,7 @@ public class GameInstance extends Instance implements Interactable {
 
     @Override
     public void commandThrown(String[] command, String ID) {
-
+        getInteractionRegistry().commandThrown(command,ID);
     }
 
     @Override

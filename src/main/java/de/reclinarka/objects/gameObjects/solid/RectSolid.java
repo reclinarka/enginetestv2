@@ -57,6 +57,16 @@ public class RectSolid implements Drawable, Interactable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        RectSolid in = (RectSolid) obj;
+        if(in.getID().contentEquals(getID())){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void exec(Graphics L) {
         L.drawImage(texture,dimension.getPos().getX(),dimension.getPos().getY(),null);
         if(test){

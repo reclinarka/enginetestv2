@@ -17,6 +17,14 @@ public class DrawableRegister extends Register<Drawable> {
     public void draw(Graphics g){
         getRegister().forEach(f -> f.exec(g));
     }
+    public void delete(Drawable drawable){
+        ArrayList<Drawable> content = getRegister();
+        for(int i = 0; i < content.size(); i++){
+            if(content.get(i).getID().contentEquals(drawable.getID())){
+                content.remove(i);
+            }
+        }
+    }
     public void save(String path){
         String subPath = path + "\\" + getID();
         String subsubPath = subPath + "\\content";

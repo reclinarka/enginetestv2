@@ -2,6 +2,7 @@ package de.reclinarka.objects.gameObjects;
 
 import de.reclinarka.graphics.drawing.Drawable;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
+import de.reclinarka.objects.framework.properties.coordinates.Position;
 import de.reclinarka.objects.framework.properties.size.RectDimension;
 import de.reclinarka.objects.gameObjects.GameInstance;
 import de.reclinarka.objects.interaction.EventType;
@@ -49,7 +50,12 @@ public class Chunk implements Drawable, Interactable {
 
     @Override
     public void exec(Graphics L) {
-        if(instance.getViewWindow().intersectsDimension(dimension)) {
+
+        //Area arround Player will be loaded
+        RectDimension window = instance.getViewWindow();
+        Position pos = instance.getPlayer().getPosition();
+        if(new RectDimension(window.getWidth(),window.getHeight(),new Coordinate(
+                pos.getX() - (window.getWidth()/2),pos.getY()-(window.getHeight()/2))).intersectsDimension(dimension)) {
             drawables.forEach(f -> f.exec(L));
             loaded = true;
         } else {

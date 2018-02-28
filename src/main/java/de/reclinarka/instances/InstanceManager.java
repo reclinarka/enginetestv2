@@ -19,7 +19,8 @@ public class InstanceManager { //supposed to manage and select between different
 
     public InstanceManager() {
     }
-    public InstanceManager(String ID,Window window,Slate slate) {
+
+    public InstanceManager(String ID, Window window, Slate slate) {
         this.ID = ID;
         this.window = window;
         this.slate = slate;
@@ -31,20 +32,43 @@ public class InstanceManager { //supposed to manage and select between different
     private Window window;
     private Slate slate;
     private InteractionListener interactionListener = new InteractionListener(ID + "_listener");
-    private InteractionRegistry globalInteractions = new InteractionRegistry( ID + "_globalInteractions");
+    private InteractionRegistry globalInteractions = new InteractionRegistry(ID + "_globalInteractions");
     private Repeater globalRepeater = new Repeater(globalInteractions, ID + "_repeater");
 
-    public void addGlobalRegistry(Interactable interactable){
+    public void addGlobalRegistry(Interactable interactable) {
         globalInteractions.addRegistry(interactable);
     }
 
-    public void addInstance(Instance instance){
+    public void deleteGlobalItem(Interactable interactable) {
+        if (interactable != null)
+            globalInteractions.delete(interactable);
+    }
+
+    public void deleteInstance(String ID) {
+        ArrayList<Instance> content = instances;
+        for (int i = 0; i < content.size(); i++) {
+            if (content.get(i).getID().contentEquals(ID)) {
+                content.remove(i);
+            }
+        }
+
+    }
+
+    public ArrayList<Instance> getInstances() {
+        return instances;
+    }
+
+    public InteractionRegistry getGlobalInteractions() {
+        return globalInteractions;
+    }
+
+    public void addInstance(Instance instance) {
         instance.getInteractionRegistry().addRegistry(globalRepeater);
         instances.add(instance);
         instance.setParent(this);
     }
 
-    public void init(String ID){
+    public void init(String ID) {
         slate.addMouseListener(interactionListener);
         slate.addMouseMotionListener(interactionListener);
         slate.addMouseWheelListener(interactionListener);
@@ -52,16 +76,16 @@ public class InstanceManager { //supposed to manage and select between different
         call(ID);
     }
 
-    public void call(String ID){
+    public void call(String ID) {
         Instance instance = getInstance(ID);
-        if(instance == null)
+        if (instance == null)
             return;
         activeInstance = instance;
 
-        if( ("" + instance.getClass()).contentEquals("class de.reclinarka.objects.gameObjects.GameInstance") ){
-            slate.setInstance( (GameInstance) instance );
+        if (("" + instance.getClass()).contentEquals("class de.reclinarka.objects.gameObjects.GameInstance")) {
+            slate.setInstance((GameInstance) instance);
             slate.setGameMode(true);
-            interactionListener.setInstance( (GameInstance) instance);
+            interactionListener.setInstance((GameInstance) instance);
             interactionListener.setGameMode(true);
             return;
         } else {
@@ -90,11 +114,11 @@ public class InstanceManager { //supposed to manage and select between different
         return window;
     }
 
-    private Instance getInstance(String ID){
+    private Instance getInstance(String ID) {
         Instance instance = null;
-        for(int i = 0; i < instances.size();i++){
+        for (int i = 0; i < instances.size(); i++) {
 
-            if(instances.get(i).getID().contentEquals(ID)) {
+            if (instances.get(i).getID().contentEquals(ID)) {
                 instance = instances.get(i);
             }
         }

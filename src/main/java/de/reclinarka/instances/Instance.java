@@ -2,16 +2,9 @@ package de.reclinarka.instances;
 
 import de.reclinarka.graphics.drawing.Drawable;
 import de.reclinarka.graphics.drawing.DrawableRegister;
-import de.reclinarka.graphics.frame.Window;
-import de.reclinarka.graphics.frame.type.Slate;
-import de.reclinarka.objects.Writeable;
-import de.reclinarka.objects.interaction.EventType;
 import de.reclinarka.objects.interaction.Interactable;
-import de.reclinarka.objects.interaction.InteractionListener;
 import de.reclinarka.objects.interaction.InteractionRegistry;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class Instance{
@@ -50,6 +43,18 @@ public class Instance{
         addItem(drawable,null);
         parent.addGlobalRegistry(interactable);
 
+    }
+
+    public void deleteItem(Drawable drawable,Interactable interactable){
+        if(interactable != null)
+        getInteractionRegistry().delete(interactable);
+        if(drawable != null)
+        getDrawableRegister().delete(drawable);
+    }
+
+    public void deleteGlobalItem(Drawable drawable,Interactable interactable){
+        deleteItem(drawable,null);
+        parent.deleteGlobalItem(interactable);
     }
 
     public DrawableRegister getDrawableRegister() {

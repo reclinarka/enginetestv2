@@ -4,13 +4,13 @@ import de.reclinarka.graphics.drawing.DrawableRegister;
 import de.reclinarka.graphics.frame.type.Slate;
 import de.reclinarka.instances.Instance;
 import de.reclinarka.instances.InstanceManager;
-import de.reclinarka.objects.Creator;
+import de.reclinarka.objects.util.Creator;
 import de.reclinarka.objects.gameObjects.GameInstance;
 import de.reclinarka.objects.gameObjects.debugging.ViewDebugger;
+import de.reclinarka.objects.gameObjects.entity.Player;
 import de.reclinarka.objects.gameObjects.entity.SwordTest;
 import de.reclinarka.objects.gameObjects.solid.RectSolid;
 import de.reclinarka.objects.gameObjects.solid.StoneMoss;
-import de.reclinarka.objects.gameObjects.solid.StonePlain;
 import de.reclinarka.objects.testing.CreatorTest;
 import de.reclinarka.objects.testing.Test;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
@@ -69,14 +69,14 @@ public class Main {
         for(int i = 0; i < 100; i++){
             creator.add(new StoneMoss("testStone_" + i,new Coordinate(-1000 + (50*i),200)));
         }
-        for(int i = 0; i < 10; i++){
-            for(int c = 0; c < 100; c++) {
-                creator.add(new StonePlain("testStone_" + i, new Coordinate(-1000 + (50 * c), 250 + (50 * i))));
-            }
-        }
+        //for(int i = 0; i < 10; i++){
+        //    for(int c = 0; c < 100; c++) {
+        //        creator.add(new StonePlain("testStone_" + i, new Coordinate(-1000 + (50 * c), 250 + (50 * i))));
+        //    }
+        //}
 
-        SwordTest swordTest = new SwordTest(new Coordinate(10,10));
-
+        SwordTest swordTest = new SwordTest(new Coordinate(10,10),130,15);
+        Player playerTest = new Player("player_test",new RectDimension(64,128,new Coordinate(0,0)),"\\playerTest3_2.png",swordTest);
         GameInstance instance = new GameInstance("game_main",register,registry,10000,5000,500);
         instance.setParent(manager);
 
@@ -84,6 +84,7 @@ public class Main {
         ViewDebugger viewDebugger = new ViewDebugger(instance);
         instance.addInteractable(viewDebugger);
         instance.addEntity(swordTest,swordTest);
+        instance.addPlayer(playerTest);
 
         creator.forEach(f -> {
             instance.addSolid(f);

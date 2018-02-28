@@ -1,6 +1,7 @@
 package de.reclinarka.objects.interaction;
 
 import com.sun.istack.internal.Nullable;
+import de.reclinarka.graphics.drawing.Drawable;
 import de.reclinarka.graphics.registers.Register;
 import de.reclinarka.util.Count;
 import de.reclinarka.util.DrawableCreator;
@@ -51,13 +52,12 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
 
     @Override
     public void commandThrown(String[] command,String ID) {
-        getRegister().forEach(f -> {
+        new Thread(() -> getRegister().forEach(f -> {
             try {
                 f.commandThrown(command,ID);
-            } catch (Exception e ){
-                e.printStackTrace();
-            }
-        });
+            } catch (ConcurrentModificationException e ){}
+        })).start();
+
     }
 
 
@@ -66,7 +66,14 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
         super.addRegistry(e);
         e.setReciever(this,null);
     }
-
+    public void delete(Interactable interactable){
+        ArrayList<Interactable> content = getRegister();
+        for(int i = 0; i < content.size(); i++){
+            if(content.get(i).getID().contentEquals(interactable.getID())){
+                content.remove(i);
+            }
+        }
+    }
     public void save(String path){
         String subPath = path + "\\" + getID();
         String subsubPath = subPath + "\\content";

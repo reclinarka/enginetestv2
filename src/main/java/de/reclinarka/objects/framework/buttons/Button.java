@@ -1,5 +1,6 @@
 package de.reclinarka.objects.framework.buttons;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import de.reclinarka.objects.framework.properties.size.RectDimension;
 import de.reclinarka.objects.framework.properties.colors.ColorConstant;
 import de.reclinarka.objects.framework.properties.colors.Colorset;
@@ -23,8 +24,12 @@ public class Button implements Interactable {
     private Coordinate pos;
     private Colorset colors;
     private ColorConstant currentColor = MAIN;
+    private String ID;
 
-
+    @Override
+    public String getID() {
+        return ID;
+    }
 
     @Override
     public void mouseEvent(MouseEvent e, EventType type, String ID) {

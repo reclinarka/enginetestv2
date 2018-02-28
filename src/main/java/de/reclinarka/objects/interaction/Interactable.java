@@ -10,4 +10,5 @@ public interface Interactable extends Writeable {
     void keyEvent(KeyEvent e, EventType type,String ID);
     void commandThrown(String[] command,String ID);
     void setReciever(InteractionRegistry reciever,String ID);
+    String getID();
 }
