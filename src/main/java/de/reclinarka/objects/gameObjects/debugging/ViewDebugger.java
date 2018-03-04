@@ -1,5 +1,6 @@
 package de.reclinarka.objects.gameObjects.debugging;
 
+import de.reclinarka.graphics.frame.type.Slate;
 import de.reclinarka.objects.gameObjects.GameInstance;
 import de.reclinarka.objects.interaction.EventType;
 import de.reclinarka.objects.interaction.Interactable;
@@ -13,9 +14,12 @@ public class ViewDebugger implements Interactable {
 
     public ViewDebugger(GameInstance instance) {
         this.instance = instance;
+        this.slate = instance.getParent().getSlate();
     }
 
     private GameInstance instance;
+    private int incrementSize = 5;
+    private Slate slate;
     private String ID;
 
     @Override
@@ -30,6 +34,7 @@ public class ViewDebugger implements Interactable {
 
     @Override
     public void keyEvent(KeyEvent e, EventType type, String ID) {
+        double ratio;
         switch (e.getKeyCode()){
             case 37:
                 instance.getViewWindow().getPos().setX(instance.getViewWindow().getPos().getX() + 10);
@@ -43,6 +48,17 @@ public class ViewDebugger implements Interactable {
             case 40:
                 instance.getViewWindow().getPos().setY(instance.getViewWindow().getPos().getY() - 10);
                 break;
+            case 33:
+                ratio = slate.getAspectRatio();
+                slate.setOriginalHeight( slate.getOriginalHeight() + incrementSize );
+                slate.setOriginalWidth(  (int) (slate.getOriginalHeight() * ratio)   );
+                break;
+            case 34:
+                ratio = slate.getAspectRatio();
+                slate.setOriginalHeight( slate.getOriginalHeight() - incrementSize );
+                slate.setOriginalWidth(  (int) (slate.getOriginalHeight() * ratio)   );
+                break;
+
         }
     }
 

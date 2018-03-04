@@ -37,6 +37,8 @@ public class Main {
         Toolkit tk = window1.getToolkit();
         window1.setCursor(tk.createCustomCursor(tk.getImage("resources\\Cursor.png"),new Point(16,16),"test"));
 
+        //GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0].setFullScreenWindow(window1);
+        //GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[1].setFullScreenWindow(window1);
         while (true){
             window1.repaint();
         }
@@ -76,7 +78,7 @@ public class Main {
         //}
 
         SwordTest swordTest = new SwordTest(new Coordinate(10,10),130,15);
-        Player playerTest = new Player("player_test",new RectDimension(200,400,new Coordinate(0,0)),"\\playerTest.png",swordTest);
+        Player playerTest = new Player("player_test",new RectDimension(200,400,new Coordinate(0,0)),"\\Kraudi3.png",swordTest);
         GameInstance instance = new GameInstance("game_main",register,registry,10000,5000,500);
         instance.setParent(manager);
 

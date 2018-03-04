@@ -2,6 +2,7 @@ package de.reclinarka.objects.gameObjects;
 
 import de.reclinarka.graphics.drawing.Drawable;
 import de.reclinarka.graphics.drawing.DrawableRegister;
+import de.reclinarka.graphics.frame.type.Slate;
 import de.reclinarka.instances.Instance;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
 import de.reclinarka.objects.framework.properties.size.RectDimension;
@@ -14,12 +15,13 @@ import de.reclinarka.objects.interaction.InteractionRegistry;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 
 public class GameInstance extends Instance implements Interactable {
     public GameInstance() {
     }
+
+
 
     public GameInstance(String ID, DrawableRegister register, InteractionRegistry registry,int width,int height,int chunkSize) {
         super(ID, register, registry);
@@ -47,9 +49,32 @@ public class GameInstance extends Instance implements Interactable {
     private RectDimension viewWindow = new RectDimension(2500,1000, new Coordinate(200,200));
     private ArrayList<DrawableRegister> layers = new ArrayList<>();
     private ArrayList<Chunk> chunks = new ArrayList<>();
+    private boolean running = true;
+
+    private Thread updater = new Thread(() -> {
+        while (true){
+            try {
+                Thread.sleep(1000/60);
+            } catch (InterruptedException e) {}
+            if(running)
+                update();
+        }
+    });
+
+    public void start(){
+        running = true;
+    }
+
+    public void pause(){
+        running = false;
+    }
 
     public RectDimension getViewWindow() {
         return viewWindow;
+    }
+
+    public void update(){
+        commandThrown(new String[]{getID(),"@a","update"},getID());
     }
 
     public Chunk getChunk(String ID) {
@@ -90,8 +115,8 @@ public class GameInstance extends Instance implements Interactable {
 
     public void draw(Graphics g){
         if (player != null) {
-            viewWindow.getPos().setX(0-player.getPosition().getX() + (getParent().getSlate().getWidth() / 2));
-            viewWindow.getPos().setY(0-player.getPosition().getY() + (getParent().getSlate().getHeight() / 2));
+            viewWindow.getPos().setX(0-player.getPosition().getX() + (getParent().getSlate().getOriginalWidth() / 2));
+            viewWindow.getPos().setY(0-player.getPosition().getY() + (getParent().getSlate().getOriginalHeight() / 2));
             g.translate(viewWindow.getPos().getX(),viewWindow.getPos().getY());
             player.exec(g);
             getDrawableRegister().draw(g);
@@ -110,9 +135,13 @@ public class GameInstance extends Instance implements Interactable {
 
     @Override
     public void mouseEvent(MouseEvent e, EventType type, String ID) {
-        e = new MouseEvent( (Component) e.getSource(),e.getID(),e.getWhen(),e.getModifiers(),e.getX() - viewWindow.getPos().getX(),
-                e.getY() - viewWindow.getPos().getY(),e.getClickCount(),false,e.getButton());
+        Slate slate = getParent().getSlate();
+        e = new MouseEvent( (Component) e.getSource(),e.getID(),e.getWhen(),e.getModifiers(),
+                ((int)(slate.getOriginalWidth() * slate.getXModifier(e.getX()))) - (viewWindow.getPos().getX()),
+                ((int)(slate.getOriginalHeight() * slate.getYModifier(e.getY()))) - (viewWindow.getPos().getY()),
+                e.getClickCount(),false,e.getButton());
         getInteractionRegistry().mouseEvent(e,type,ID);
+
     }
 
     @Override
@@ -122,6 +151,11 @@ public class GameInstance extends Instance implements Interactable {
 
     @Override
     public void commandThrown(String[] command, String ID) {
+        if(command[1].contentEquals(getID()))
+            if(command[2].contentEquals("start"))
+                start();
+            else if(command[2].contentEquals("pause"))
+                pause();
         getInteractionRegistry().commandThrown(command,ID);
     }
 

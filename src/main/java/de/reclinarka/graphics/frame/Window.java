@@ -31,6 +31,8 @@ public class Window extends JFrame {
         setLayout(new GridLayout(1,1,0,0));
         getContentPane().add(content);
         pack();
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
+
     }
 }

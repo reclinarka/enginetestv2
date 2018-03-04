@@ -40,8 +40,29 @@ public class Chunk implements Drawable, Interactable {
         return drawables;
     }
 
+    public Drawable getDrawable(String ID){
+        Drawable out = null;
+        for(int i = 0; i < drawables.size();i++){
+            if(drawables.get(i).getID().contentEquals(ID)){
+                out = drawables.get(i);
+            }
+        }
+        return out;
+    }
+
     public ArrayList<Interactable> getInteractables() {
         return interactables;
+    }
+
+    public Interactable getInteractable(String ID){
+        Interactable out = null;
+        for(int i = 0; i < interactables.size();i++) {
+            if (interactables.get(i).getID().contentEquals(ID)) {
+                out = interactables.get(i);
+            }
+        }
+
+            return null;
     }
 
     public RectDimension getDimension() {

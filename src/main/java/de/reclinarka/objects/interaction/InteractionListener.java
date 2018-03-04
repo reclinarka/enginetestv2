@@ -1,5 +1,7 @@
 package de.reclinarka.objects.interaction;
 
+import de.reclinarka.Main;
+import de.reclinarka.graphics.frame.type.Slate;
 import de.reclinarka.instances.Instance;
 import de.reclinarka.objects.gameObjects.GameInstance;
 
@@ -40,6 +42,7 @@ public class InteractionListener implements MouseListener, MouseMotionListener, 
 
     @Override
     public void keyTyped(KeyEvent e) {
+
         if (gameMode) {
             instance.keyEvent(e,EventType.Key_Typed,ID);
         } else {

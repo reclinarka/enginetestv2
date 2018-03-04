@@ -46,43 +46,45 @@ public class SwordTest implements Drawable, Interactable {
             angle = Math.toDegrees(Vector.getNormalVector().getAngle(distanceToMouse));
         }
         Vector normal = new Vector(0, -diameter);
-        if(angle >= 157.5){
-            target = normal.getPosRelativeTo(origin);
-            direction = 0;
-            return;
-        } else if( angle >= 112.5){
-            target = normal.rotate(45).getPosRelativeTo(origin);
-            direction = 45;
-            return;
-        } else if( angle >= 67.5) {
-            target = normal.rotate(90).getPosRelativeTo(origin);
-            direction = 90;
-            return;
-        } else if( angle >= 22.5) {
-            target = normal.rotate(135).getPosRelativeTo(origin);
-            direction = 135;
-            return;
-        } else if( angle >= -22.5) {
-            target = normal.rotate(180).getPosRelativeTo(origin);
-            direction = 180;
-            return;
-        } else if( angle >= -67.5) {
-            target = normal.rotate(225).getPosRelativeTo(origin);
-            direction = 225;
-            return;
-        } else if( angle >= -112.5) {
-            target = normal.rotate(270).getPosRelativeTo(origin);
-            direction = 270;
-            return;
-        } else if( angle >= -157.5){
-            target = normal.rotate(315).getPosRelativeTo(origin);
-            direction = 315;
-            return;
-        } else {
-            target = normal.getPosRelativeTo(origin);
-            direction = 0;
-            return;
-        }
+        target = normal.rotate(360 - (angle + 180)).getPosRelativeTo(origin);
+
+        //if(angle >= 157.5){
+        //    target = normal.getPosRelativeTo(origin);
+        //    direction = 0;
+        //    return;
+        //} else if( angle >= 112.5){
+        //    target = normal.rotate(45).getPosRelativeTo(origin);
+        //    direction = 45;
+        //    return;
+        //} else if( angle >= 67.5) {
+        //    target = normal.rotate(90).getPosRelativeTo(origin);
+        //    direction = 90;
+        //    return;
+        //} else if( angle >= 22.5) {
+        //    target = normal.rotate(135).getPosRelativeTo(origin);
+        //    direction = 135;
+        //    return;
+        //} else if( angle >= -22.5) {
+        //    target = normal.rotate(180).getPosRelativeTo(origin);
+        //    direction = 180;
+        //    return;
+        //} else if( angle >= -67.5) {
+        //    target = normal.rotate(225).getPosRelativeTo(origin);
+        //    direction = 225;
+        //    return;
+        //} else if( angle >= -112.5) {
+        //    target = normal.rotate(270).getPosRelativeTo(origin);
+        //    direction = 270;
+        //    return;
+        //} else if( angle >= -157.5){
+        //    target = normal.rotate(315).getPosRelativeTo(origin);
+        //    direction = 315;
+        //    return;
+        //} else {
+        //    target = normal.getPosRelativeTo(origin);
+        //    direction = 0;
+        //    return;
+        //}
     }
 
     @Override
