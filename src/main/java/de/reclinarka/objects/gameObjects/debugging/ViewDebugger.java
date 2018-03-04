@@ -12,9 +12,10 @@ import java.io.IOException;
 
 public class ViewDebugger implements Interactable {
 
-    public ViewDebugger(GameInstance instance) {
+    public ViewDebugger(String ID,GameInstance instance) {
         this.instance = instance;
         this.slate = instance.getParent().getSlate();
+        this.ID = ID;
     }
 
     private GameInstance instance;

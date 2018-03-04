@@ -52,6 +52,11 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
 
     @Override
     public void commandThrown(String[] command,String ID) {
+        switch (command[2]){
+            case "delete":
+                delete(command[3]);
+                break;
+        }
         new Thread(() -> getRegister().forEach(f -> {
             try {
                 f.commandThrown(command,ID);
@@ -66,10 +71,11 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
         super.addRegistry(e);
         e.setReciever(this,null);
     }
-    public void delete(Interactable interactable){
+
+    public void delete(String ID){
         ArrayList<Interactable> content = getRegister();
         for(int i = 0; i < content.size(); i++){
-            if(content.get(i).getID().contentEquals(interactable.getID())){
+            if(content.get(i).getID().contentEquals(ID)){
                 content.remove(i);
             }
         }

@@ -20,7 +20,7 @@ public class Chunk implements Drawable, Interactable {
     public Chunk(String ID,GameInstance instance, RectDimension dimension){
         this.instance = instance;
         this.dimension = dimension;
-        this.ID = ID;
+        this.ID = "_chunk_" + ID;
     }
     public Chunk(String ID,GameInstance instance, RectDimension dimension, ArrayList<Drawable> drawables){
         this.instance = instance;
@@ -36,13 +36,22 @@ public class Chunk implements Drawable, Interactable {
     private ArrayList<Drawable> drawables = new ArrayList<>();
     private ArrayList<Interactable> interactables = new ArrayList<>();
 
+    public void deleteItem(String ID){
+        Drawable drawable = getDrawable(ID);
+        Interactable interactable = getInteractable(ID);
+        if(drawable != null)
+            drawables.remove(drawables.indexOf(drawable));
+        if (interactable != null)
+        interactables.remove(interactables.indexOf(interactable));
+    }
+
     public ArrayList<Drawable> getDrawables() {
         return drawables;
     }
 
     public Drawable getDrawable(String ID){
         Drawable out = null;
-        for(int i = 0; i < drawables.size();i++){
+        for(int i = 0; i < drawables.size()-1;i++){
             if(drawables.get(i).getID().contentEquals(ID)){
                 out = drawables.get(i);
             }
@@ -134,6 +143,11 @@ public class Chunk implements Drawable, Interactable {
 
     @Override
     public void commandThrown(String[] command, String ID) {
+        switch (command[2]){
+            case "delete":
+                deleteItem(command[3]);
+                break;
+        }
         if(loaded){
             interactables.forEach(f -> {
                 try {

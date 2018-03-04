@@ -45,16 +45,14 @@ public class Instance{
 
     }
 
-    public void deleteItem(Drawable drawable,Interactable interactable){
-        if(interactable != null)
-        getInteractionRegistry().delete(interactable);
-        if(drawable != null)
-        getDrawableRegister().delete(drawable);
+    public void deleteItem(String ID){
+        getInteractionRegistry().delete(ID);
+        getDrawableRegister().delete(ID);
     }
 
-    public void deleteGlobalItem(Drawable drawable,Interactable interactable){
-        deleteItem(drawable,null);
-        parent.deleteGlobalItem(interactable);
+    public void deleteGlobalItem(String ID){
+        deleteItem(ID);
+        parent.deleteGlobalItem(ID);
     }
 
     public DrawableRegister getDrawableRegister() {

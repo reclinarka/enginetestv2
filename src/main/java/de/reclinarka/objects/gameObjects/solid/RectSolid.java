@@ -77,7 +77,7 @@ public class RectSolid implements Drawable, Interactable {
 
     @Override
     public String getID() {
-        return null;
+        return ID;
     }
 
     @Override

@@ -29,8 +29,8 @@ public class GameInstance extends Instance implements Interactable {
         this.height = height;
         this.chunkSize = chunkSize;
         int count = 0;
-        for(int i = 0; i <= width; i = i + chunkSize){
-            for(int c = 0; c <= height; c = c + chunkSize){
+        for(int i = 0-(width/2); i <= width/2; i = i + chunkSize){
+            for(int c = 0-(height/2); c <= height/2; c = c + chunkSize){
                 chunks.add( new Chunk(getID() + "_chunk_" + count , this ,
                         new RectDimension( chunkSize , chunkSize , new Coordinate( i , c ) ) ) );
                 count++;
@@ -151,6 +151,9 @@ public class GameInstance extends Instance implements Interactable {
 
     @Override
     public void commandThrown(String[] command, String ID) {
+        if(command[2].contentEquals("delete")){
+            getDrawableRegister().delete(command[3]);
+        }
         if(command[1].contentEquals(getID()))
             if(command[2].contentEquals("start"))
                 start();

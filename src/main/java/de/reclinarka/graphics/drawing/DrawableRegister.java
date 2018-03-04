@@ -1,6 +1,7 @@
 package de.reclinarka.graphics.drawing;
 
 import de.reclinarka.graphics.registers.Register;
+import de.reclinarka.objects.gameObjects.Chunk;
 import de.reclinarka.util.Count;
 import de.reclinarka.util.DrawableCreator;
 import de.reclinarka.util.WriterReader;
@@ -17,11 +18,15 @@ public class DrawableRegister extends Register<Drawable> {
     public void draw(Graphics g){
         getRegister().forEach(f -> f.exec(g));
     }
-    public void delete(Drawable drawable){
+    public void delete(String ID){
         ArrayList<Drawable> content = getRegister();
         for(int i = 0; i < content.size(); i++){
-            if(content.get(i).getID().contentEquals(drawable.getID())){
+            if(content.get(i).getID().contentEquals(ID)){
                 content.remove(i);
+            }
+            if(content.get(i).getID().contains("_chunk_")){
+                Chunk f = (Chunk) content.get(i);
+                f.deleteItem(ID);
             }
         }
     }

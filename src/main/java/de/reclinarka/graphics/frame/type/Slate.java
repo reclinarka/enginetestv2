@@ -38,9 +38,9 @@ public class Slate extends JPanel { //content for the Window
         return ((double) originalWidth) / ((double) originalHeight);
     }
 
-    private int nativeWidth = 1000;
-    private int originalWidth = 1200;
-    private int originalHeight = 600;
+    private int nativeWidth = 1600;
+    private int originalWidth = 1600;
+    private int originalHeight = 900;
     private boolean gameMode;
     private GameInstance instance;
     private DrawableRegister content;

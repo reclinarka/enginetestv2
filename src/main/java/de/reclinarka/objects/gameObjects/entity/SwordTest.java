@@ -14,12 +14,14 @@ import java.io.IOException;
 
 public class SwordTest implements Drawable, Interactable {
 
-    public SwordTest(Coordinate origin,double diameter,double distanceToOrigin) {
+    public SwordTest(String ID,Coordinate origin,double diameter,double distanceToOrigin) {
         this.origin = origin;
         this.diameter = diameter;
         this.distanceToOrigin = distanceToOrigin;
+        this.ID = ID;
     }
 
+    private String ID;
     private boolean test = true;
     private Coordinate pos = new Coordinate(0,0);
     private Coordinate origin;
@@ -162,7 +164,7 @@ public class SwordTest implements Drawable, Interactable {
 
     @Override
     public String getID() {
-        return null;
+        return ID;
     }
 
     @Override

@@ -68,7 +68,7 @@ public class Entity implements Drawable,Interactable{ // has to update (physics-
 
     @Override
     public String getID() {
-        return null;
+        return ID;
     }
 
     @Override

@@ -39,9 +39,8 @@ public class InstanceManager { //supposed to manage and select between different
         globalInteractions.addRegistry(interactable);
     }
 
-    public void deleteGlobalItem(Interactable interactable) {
-        if (interactable != null)
-            globalInteractions.delete(interactable);
+    public void deleteGlobalItem(String ID) {
+            globalInteractions.delete(ID);
     }
 
     public void deleteInstance(String ID) {

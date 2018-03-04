@@ -68,8 +68,8 @@ public class Main {
         InteractionRegistry registry = new InteractionRegistry("editorInteractables");
 
         ArrayList<RectSolid> creator = new ArrayList<>();
-        for(int i = 0; i < 100; i++){
-            creator.add(new StoneMoss("testStone_" + i,new Coordinate(-1000 + (50*i),200)));
+        for(int i = 0; i < 1; i++){
+            creator.add(new StoneMoss("testStone_" + i,new Coordinate(-1000 + (100*i),200)));
         }
         //for(int i = 0; i < 10; i++){
         //    for(int c = 0; c < 100; c++) {
@@ -77,13 +77,13 @@ public class Main {
         //    }
         //}
 
-        SwordTest swordTest = new SwordTest(new Coordinate(10,10),130,15);
+        SwordTest swordTest = new SwordTest("player_sword", new Coordinate(10,10),170,25);
         Player playerTest = new Player("player_test",new RectDimension(200,400,new Coordinate(0,0)),"\\Kraudi3.png",swordTest);
         GameInstance instance = new GameInstance("game_main",register,registry,10000,5000,500);
         instance.setParent(manager);
 
 
-        ViewDebugger viewDebugger = new ViewDebugger(instance);
+        ViewDebugger viewDebugger = new ViewDebugger("view_debugger",instance);
         instance.addInteractable(viewDebugger);
         instance.addEntity(swordTest,swordTest);
         instance.addPlayer(playerTest);

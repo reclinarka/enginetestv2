@@ -71,6 +71,9 @@ public class InteractionListener implements MouseListener, MouseMotionListener, 
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        instance.commandThrown(new String[]{
+                "","","delete","testStone_6"
+        },ID);
         if (gameMode) {
             instance.mouseEvent(e,EventType.Mouse_Clicked,ID);
         } else {
