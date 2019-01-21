@@ -28,6 +28,7 @@ public class RectSolid implements Drawable, Interactable {
     private String ID;
     private RectDimension dimension;
     private BufferedImage texture;
+    private InteractionRegistry reciever;
 
     private void init(String texture){ // "\\resources" is added to the texture path, which is formatted: "\\<subdirectories>\\<file>.png"
         try {
@@ -84,8 +85,10 @@ public class RectSolid implements Drawable, Interactable {
     public void mouseEvent(MouseEvent e, EventType type, String ID) {
         switch (type){
             case Mouse_Clicked:
-                if(dimension.containsPoint(new Coordinate(e.getX(),e.getY())))
+                if(dimension.containsPoint(new Coordinate(e.getX(),e.getY()))) {
                     System.out.println("interacted");
+                    reciever.commandThrown(new String[]{"","","delete",getID()},getID());
+                }
                 break;
             case Mouse_Moved:
                 if(dimension.containsPoint(new Coordinate(e.getX(),e.getY()))){
@@ -117,7 +120,7 @@ public class RectSolid implements Drawable, Interactable {
 
     @Override
     public void setReciever(InteractionRegistry reciever, String ID) {
-
+        this.reciever = reciever;
     }
 
     @Override

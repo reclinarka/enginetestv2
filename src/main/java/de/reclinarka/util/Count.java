@@ -5,4 +5,7 @@ public class Count {
     public void add(){
         i++;
     }
+    public void minus(){
+        i--;
+    }
 }

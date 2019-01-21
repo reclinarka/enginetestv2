@@ -47,7 +47,10 @@ public class InteractionRegistry extends Register<Interactable> implements Inter
 
     @Override
     public void setReciever( @Nullable InteractionRegistry interactionRegistry,@Nullable String ID) {
-        getRegister().forEach(f -> f.setReciever(this,null));
+        if(interactionRegistry == null)
+            getRegister().forEach(f -> f.setReciever(this,null));
+        else
+            getRegister().forEach( f -> f.setReciever(interactionRegistry,ID));
     }
 
     @Override

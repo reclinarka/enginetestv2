@@ -38,6 +38,8 @@ public class Entity implements Drawable,Interactable{ // has to update (physics-
     }
 
     private void setTexture(String texture){ // "\\resources" is added to the texture path, which is formatted: "\\<subdirectories>\\<file>.png"
+        if(texture.contentEquals(""))
+            return;
         try {
             this.texture = resize(ImageIO.read(new File(WriterReader.getDirPath() + "\\resources" + texture)));
         } catch (IOException e) {

@@ -119,6 +119,9 @@ public class SwordTest implements Drawable, Interactable {
         Vector vector8 = new Vector(origin.getX() + (vector3.getX() * 2), origin.getY() + (vector3.getY() * 2));
 
 
+        Coordinate vec7 = vector7.getCoordinate();
+        Coordinate vec8 = vector8.getCoordinate();
+
         Coordinate pos1 = new Coordinate(Math.round((float) (vector4.getX() + vector5.getX())), Math.round((float) (vector4.getY() + vector5.getY())));
         Coordinate pos2 = new Coordinate(Math.round((float) (vector4.getX() + vector6.getX())), Math.round((float) (vector4.getY() + vector6.getY())));
         Coordinate pos3 = new Coordinate(Math.round((float) (vector7.getX() + (vector6.getX() * ratio2))), Math.round((float) (vector7.getY() + (vector6.getY() * ratio2))));
@@ -136,8 +139,9 @@ public class SwordTest implements Drawable, Interactable {
 
 
         //edges
-        g.drawLine(pos4.getX(), pos4.getY(), pos1.getX(), pos1.getY());
-        g.drawLine(pos3.getX(), pos3.getY(), pos2.getX(), pos2.getY());
+
+        //g.drawLine(pos4.getX(), pos4.getY(), pos1.getX(), pos1.getY());
+        //g.drawLine(pos3.getX(), pos3.getY(), pos2.getX(), pos2.getY());
 
 
         //guard
@@ -147,11 +151,27 @@ public class SwordTest implements Drawable, Interactable {
         g.drawLine(pos8.getX(), pos8.getY(), pos7.getX(), pos7.getY());
 
         //tip + middleline
-        g.drawLine(pos1.getX(), pos1.getY(), target.getX(), target.getY());
-        g.drawLine(pos2.getX(), pos2.getY(), target.getX(), target.getY());
+
+        //g.drawLine(pos1.getX(), pos1.getY(), target.getX(), target.getY());
+        //g.drawLine(pos2.getX(), pos2.getY(), target.getX(), target.getY());
+
+
         g.drawLine(Math.round((float) vector7.getX()), Math.round((float) vector7.getY()), target.getX(), target.getY());
         g.drawLine( Math.round((float) vector8.getX()), Math.round((float) vector8.getY()),origin.getX(),origin.getY());
-        g.drawOval(origin.getX() - (width / 2) ,origin.getY() - (width / 2),width,width);
+        g.fillOval(origin.getX() - (width / 2) ,origin.getY() - (width / 2),width,width);
+
+        //filled Sword
+
+        //blade
+        //left
+        g.fillPolygon(new int[]{pos4.getX(),pos1.getX(),target.getX()}, new int[]{pos4.getY(),pos1.getY(),target.getY()}, 3);
+        g.fillPolygon(new int[]{pos4.getX(),target.getX(),vec7.getX()}, new int[]{pos4.getY(),target.getY(),vec7.getY()}, 3);
+        //right
+        g.fillPolygon(new int[]{vec7.getX(),target.getX(),pos3.getX()},new int[]{vec7.getY(),target.getY(),pos3.getY()},3);
+        g.fillPolygon(new int[]{pos3.getX(),target.getX(),pos2.getX()},new int[]{pos3.getY(),target.getY(),pos2.getY()},3);
+        //lazy guard
+
+
     }
 
     public void toggle() {

@@ -63,6 +63,7 @@ public class GameInstance extends Instance implements Interactable {
 
     public void start(){
         running = true;
+        getInteractionRegistry().setReciever(null,null);
     }
 
     public void pause(){
@@ -93,6 +94,7 @@ public class GameInstance extends Instance implements Interactable {
             if(temp.getDimension().intersectsDimension(solid.getDimension())){
                 temp.addDrawable(solid);
                 temp.addInteractable(solid);
+                solid.setReciever(getInteractionRegistry(),getID());
                 return;
             }
         }
@@ -107,7 +109,7 @@ public class GameInstance extends Instance implements Interactable {
     }
 
     public void addEntity(Interactable interactable, Drawable drawable){
-        getInteractionRegistry().addRegistry(interactable);
+        addInteractable(interactable);
         getDrawableRegister().addRegistry(drawable);
     }
 
@@ -153,6 +155,7 @@ public class GameInstance extends Instance implements Interactable {
     public void commandThrown(String[] command, String ID) {
         if(command[2].contentEquals("delete")){
             getDrawableRegister().delete(command[3]);
+            getInteractionRegistry().delete(command[3]);
         }
         if(command[1].contentEquals(getID()))
             if(command[2].contentEquals("start"))

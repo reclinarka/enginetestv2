@@ -1,21 +1,21 @@
 package de.reclinarka.instances;
 
+import de.reclinarka.editor.animation.AnimatorInstance;
 import de.reclinarka.graphics.frame.Window;
 import de.reclinarka.graphics.frame.type.Slate;
-import de.reclinarka.objects.Writeable;
 import de.reclinarka.objects.gameObjects.GameInstance;
 import de.reclinarka.objects.interaction.Interactable;
 import de.reclinarka.objects.interaction.InteractionListener;
 import de.reclinarka.objects.interaction.InteractionRegistry;
 import de.reclinarka.objects.interaction.Repeater;
-import de.reclinarka.util.Count;
-import de.reclinarka.util.InteractableCreator;
 import de.reclinarka.util.WriterReader;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class InstanceManager { //supposed to manage and select between different GUIs
+import static de.reclinarka.instances.InstanceMode.*;
+
+public class InstanceManager { //supposed to manage and select between different GUIs and Scenes
 
     public InstanceManager() {
     }
@@ -82,14 +82,20 @@ public class InstanceManager { //supposed to manage and select between different
         activeInstance = instance;
 
         if (("" + instance.getClass()).contentEquals("class de.reclinarka.objects.gameObjects.GameInstance")) {
-            slate.setInstance((GameInstance) instance);
-            slate.setGameMode(true);
-            interactionListener.setInstance((GameInstance) instance);
-            interactionListener.setGameMode(true);
+            slate.setGameInstance((GameInstance) instance);
+            slate.setMode(GAME_MODE);
+            interactionListener.setGameInstance((GameInstance) instance);
+            interactionListener.setMode(GAME_MODE);
+            return;
+        } else if (("" + instance.getClass()).contentEquals("class de.reclinarka.editor.animation.AnimatorInstance")) {
+            slate.setAnimatorInstance((AnimatorInstance) instance);
+            slate.setMode(ANIMATOR_MODE);
+            interactionListener.setAnimatorInstance((AnimatorInstance) instance);
+            interactionListener.setMode(ANIMATOR_MODE);
             return;
         } else {
-            interactionListener.setGameMode(false);
-            slate.setGameMode(false);
+            interactionListener.setMode(DEFAULT_MODE);
+            slate.setMode(DEFAULT_MODE);
             interactionListener.setRegistry(instance.getInteractionRegistry());
         }
         slate.setContent(instance.getDrawableRegister());
@@ -111,6 +117,14 @@ public class InstanceManager { //supposed to manage and select between different
 
     public Window getWindow() {
         return window;
+    }
+
+    public InteractionListener getInteractionListener() {
+        return interactionListener;
+    }
+
+    public Repeater getGlobalRepeater() {
+        return globalRepeater;
     }
 
     private Instance getInstance(String ID) {

@@ -72,4 +72,8 @@ public class Vector {
         return new Vector(0, 1);
     }
 
+    public Coordinate getCoordinate(){
+        return new Coordinate(Math.round((float) x),Math.round((float) y));
+    }
+
 }

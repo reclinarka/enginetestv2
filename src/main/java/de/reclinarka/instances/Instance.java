@@ -7,6 +7,11 @@ import de.reclinarka.objects.interaction.InteractionRegistry;
 
 import java.io.IOException;
 
+/**
+ *
+ *
+ *
+ * **/
 public class Instance{
 
     public Instance(){}

@@ -2,7 +2,7 @@
   <artifact type="jar" build-on-make="true" name="testgame:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/testgame_jar</output-path>
     <root id="archive" name="testgame.jar">
-      <element id="module-output" name="testgame" />
+      <element id="module-output" name="testgameengine" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.6.0/jackson-annotations-2.6.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.6.3/jackson-databind-2.6.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.6.3/jackson-core-2.6.3.jar" path-in-jar="/" />

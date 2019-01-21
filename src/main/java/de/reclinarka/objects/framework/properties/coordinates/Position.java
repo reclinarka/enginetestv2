@@ -21,12 +21,12 @@ public class Position extends Coordinate{
 
     @Override
     public void setX(int x) {
-        dimension.getPos().setX(x);
+        dimension.getPos().setX(x - (dimension.getWidth() / 2));
     }
 
     @Override
     public void setY(int y) {
-        dimension.getPos().setY(y);
+        dimension.getPos().setY(y - (dimension.getHeight() / 2));
     }
 
     public RectDimension getDimension() {

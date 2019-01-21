@@ -5,7 +5,8 @@ import de.reclinarka.graphics.frame.type.Slate;
 import javax.swing.*;
 import java.awt.*;
 
-public class Window extends JFrame {
+public class Window extends JFrame { // basically just a window
+
     public Window(String windowTitle, Slate content, int width, int height, boolean resizable){
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         this.setLocation(( (gd.getDisplayMode().getWidth() / 2) - (width / 2) ),

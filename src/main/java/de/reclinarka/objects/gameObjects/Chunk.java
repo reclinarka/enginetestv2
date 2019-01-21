@@ -42,7 +42,7 @@ public class Chunk implements Drawable, Interactable {
         if(drawable != null)
             drawables.remove(drawables.indexOf(drawable));
         if (interactable != null)
-        interactables.remove(interactables.indexOf(interactable));
+            interactables.remove(interactables.indexOf(interactable));
     }
 
     public ArrayList<Drawable> getDrawables() {
@@ -51,7 +51,7 @@ public class Chunk implements Drawable, Interactable {
 
     public Drawable getDrawable(String ID){
         Drawable out = null;
-        for(int i = 0; i < drawables.size()-1;i++){
+        for(int i = 0; i < drawables.size();i++){
             if(drawables.get(i).getID().contentEquals(ID)){
                 out = drawables.get(i);
             }
@@ -71,7 +71,7 @@ public class Chunk implements Drawable, Interactable {
             }
         }
 
-            return null;
+        return out;
     }
 
     public RectDimension getDimension() {

@@ -1,7 +1,7 @@
 package de.reclinarka.objects.framework.properties.size;
 
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
-
+//Dimension for Rectangles
 public class RectDimension implements Dimension{
     public RectDimension(int width, int height,Coordinate pos){
         this.width = width;
@@ -11,6 +11,8 @@ public class RectDimension implements Dimension{
     private Coordinate pos;
     private int width;
     private int height;
+
+    //See Interface Documentation for Override details
 
     @Override
     public Coordinate getPos() {
