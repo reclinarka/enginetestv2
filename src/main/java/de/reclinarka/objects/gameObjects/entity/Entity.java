@@ -9,6 +9,7 @@ import de.reclinarka.objects.interaction.InteractionRegistry;
 import de.reclinarka.util.WriterReader;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -80,6 +81,7 @@ public class Entity implements Drawable,Interactable{ // has to update (physics-
 
     @Override
     public void keyEvent(KeyEvent e, EventType type, String ID) {
+
 
     }
 

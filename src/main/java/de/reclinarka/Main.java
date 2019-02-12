@@ -31,25 +31,25 @@ public class Main {
     public static void main(String[] args) {
         //System.out.println(new GameInstance().getClass() + "");  //getting class reference
         //gameTest();
-        animationTest();
+        animationTest(1920,1080);
     }
 
 
 
-    public static void animationTest(){
+    public static void animationTest(int width, int height){
         Slate animatorSlate = new Slate();
         de.reclinarka.graphics.frame.Window window1 = new de.reclinarka.graphics.frame.Window("Animator",
-                animatorSlate,1920,1080,0,0,true);
+                animatorSlate,width,height,0,0,false);
         InstanceManager window1_manager = new InstanceManager("window1_manager",window1,animatorSlate);
-        window1_manager.addInstance(testAnimatorInstance());
+        window1_manager.addInstance(testAnimatorInstance(height));
         window1_manager.init("animatorTest");
         while (true){
             window1.repaint();
         }
     }
 
-    public static AnimatorInstance testAnimatorInstance(){
-        AnimatorInstance animatorInstance = new AnimatorInstance("animatorTest");
+    public static AnimatorInstance testAnimatorInstance(int height){
+        AnimatorInstance animatorInstance = new AnimatorInstance("animatorTest", height);
         return animatorInstance;
     }
 

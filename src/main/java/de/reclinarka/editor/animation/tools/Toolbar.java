@@ -1,6 +1,8 @@
 package de.reclinarka.editor.animation.tools;
 
-import de.reclinarka.editor.animation.tools.ControllElements.ControlElement;
+import de.reclinarka.editor.animation.tools.controllElements.ControlElement;
+import de.reclinarka.editor.animation.tools.controllElements.HideButton;
+import de.reclinarka.editor.animation.tools.controllElements.ToolSlider;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
 import de.reclinarka.objects.interaction.EventType;
 import de.reclinarka.objects.interaction.Interactable;
@@ -16,20 +18,40 @@ import java.util.ArrayList;
 
 public class Toolbar implements Interactable{
 
-    public Toolbar(String ID){
+    public Toolbar(String ID, int totalHeight){
         this.ID = ID;
-
+        this.totalHeight = totalHeight;
+        elements.add(new HideButton(this));
+        elements.add(new ToolSlider(this));
+        for(int i = 0; i<20; i++){
+            addTool(new Tool("test_" + i, this));
+        }
+        defaultExtendedHeight = initDevision(5);
+        defaultFoldedHeight = initDevision(20);
 
     }
 
-
+    private final int totalHeight;
+    private int toolHeight = 160;
+    private InteractionRegistry reciever;
+    private int defaultToolWidth = 400;
+    private int defaultToolDistance = 30;
+    private int defaultExtendedHeight;
+    private int defaultFoldedHeight;
+    private int ToolYOffset = 50;
     private boolean expanded = false;
     private boolean hoverMenu = false;
+    private int height;
+    private int width;
     private Coordinate lastMousePos = new Coordinate(0,0);
     private String ID;
-    private ArrayList<Tool> content;
-    private ArrayList<ControlElement> elements;
-    private BufferedImage lastFrame;
+    private ArrayList<Tool> content = new ArrayList<>();
+    private ArrayList<ControlElement> elements = new ArrayList<>();
+    public BufferedImage lastExtendedRender;
+
+    private int initDevision(int x){
+        return totalHeight / x;
+    }
 
     public void removeTool(String ID){
         for (Tool f:content) {
@@ -42,39 +64,42 @@ public class Toolbar implements Interactable{
         content.add(tool);
     }
 
-    public void draw(Graphics g, BufferedImage currentFrame) {
-
+    public void draw(Graphics graphics, BufferedImage currentFrame) {
+        BufferedImage currentRender;
+        width = currentFrame.getWidth();
         if(expanded) {
-            int height = currentFrame.getHeight() / 5;
-            g.setColor(ColorStorage.defaultShade);
-            g.fillRect(0, currentFrame.getHeight() - height, currentFrame.getWidth(), height);
+            height = defaultExtendedHeight;
+            currentRender = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            Graphics g = currentRender.getGraphics();
+            g.setColor(ColorStorage.defaultButton);
+            g.fillRect(0, 0, width, height);
             g.setColor(ColorStorage.defaultTextfieldBorder);
-            g.drawRect(0, currentFrame.getHeight() - height, currentFrame.getWidth() - 1, height - 1);
-
-            content.forEach(f -> f.draw( g, new String[]{}));
-        } else {
-            int height = currentFrame.getHeight() / 20;
-            g.setColor(ColorStorage.defaultShade);
-            g.fillRect(0, currentFrame.getHeight() - height, currentFrame.getWidth(), height);
-            g.setColor(ColorStorage.defaultTextfieldBorder);
-            g.drawRect(0, currentFrame.getHeight() - height, currentFrame.getWidth() - 1, height - 1);
-
-            if(lastMousePos.getX() >=9 && lastMousePos.getX() <= 9+34 &&
-                    lastMousePos.getY() >= currentFrame.getHeight()-height+10 &&
-                    lastMousePos.getY() <= currentFrame.getHeight() - height + 10 + 34) {
-                g.setColor(ColorStorage.defaultTextfieldBorder);
-                g.fillRect(9, currentFrame.getHeight() - height + 10, 34, 34);
-            } else {
-                g.setColor(ColorStorage.defaultButtonHighlited);
-                g.fillRect(9, currentFrame.getHeight() - height + 10, 34, 34);
+            g.drawRect(0, 0, width - 1, height - 1);
+            float toolLength = (defaultToolDistance + (content.size() * defaultToolWidth) + (content.size() * defaultToolDistance)) -width;
+            g.translate( (int) -(toolLength * getSliderValue()),ToolYOffset);
+            for (int i = 0; i < content.size() ; i++){
+                g.translate(defaultToolDistance, 0);
+                content.get(i).draw(g, new String[]{});
+                g.translate(defaultToolWidth,0);
             }
+            lastExtendedRender = currentRender;
+        } else {
+            height = defaultFoldedHeight;
+            currentRender = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            Graphics g = currentRender.getGraphics();
+            g.setColor(ColorStorage.defaultShade);
+            g.fillRect(0, 0, width, height);
+            g.setColor(ColorStorage.defaultTextfieldBorder);
+            g.drawRect(0, 0, width, height - 1);
         }
-
-        lastFrame = currentFrame;
+        Graphics g = currentRender.getGraphics();
+        elements.forEach(f -> f.draw(g));
+        graphics.drawImage(currentRender,0,currentFrame.getHeight()-height,null);
     }
 
     @Override
     public void mouseEvent(MouseEvent e, EventType type, String ID) {
+        elements.forEach(f -> f.mouseEvent(e,type,ID));
         switch(type){
             case Mouse_Moved:
                 break;
@@ -86,6 +111,17 @@ public class Toolbar implements Interactable{
     @Override
     public void keyEvent(KeyEvent e, EventType type, String ID) {
 
+        // loading files
+        //if(type == EventType.Key_Pressed){
+        //    if(e.getKeyChar()== 't') {
+        //        JFrame frame = new JFrame("test");
+        //        FileDialog fd = new FileDialog(frame,"Choosa a File",FileDialog.LOAD);
+        //        fd.setDirectory(WriterReader.getDirPath());
+        //        fd.setVisible(true);
+        //        System.out.println(WriterReader.getDirPath() +"\\"+ fd.getFile()); String of target Dir
+        //    }
+        //}
+
     }
 
     @Override
@@ -95,7 +131,7 @@ public class Toolbar implements Interactable{
 
     @Override
     public void setReciever(InteractionRegistry reciever, String ID) {
-
+        this.reciever = reciever;
     }
 
     @Override
@@ -122,8 +158,63 @@ public class Toolbar implements Interactable{
         expanded = !expanded;
     }
 
+    public void throwCommand(String[] command, String ID){
+        reciever.commandThrown(command,ID);
+    }
+
     //Getter
+
+
+    public int getToolHeight() {
+        return toolHeight;
+    }
+
+    public int getToolYOffset() {
+        return ToolYOffset;
+    }
+
+    public int getTotalHeight() {
+        return totalHeight;
+    }
+
+    public float getSliderValue(){
+        ToolSlider slider = (ToolSlider) elements.get(1);
+        return slider.getValue();
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public ArrayList<Tool> getContent() {
+        return content;
+    }
+
+    public int getToolIndex(String ID){
+        for (int i = 0; i < content.size(); i++){
+            if(content.get(i).getID().contentEquals(ID))
+                return i;
+        }
+        return -1;
+    }
+
+    public int getDefaultExtendedHeight() {
+        return defaultExtendedHeight;
+    }
+
+    public int getDefaultToolDistance() {
+        return defaultToolDistance;
+    }
+
+    public int getDefaultToolWidth() {
+        return defaultToolWidth;
+    }
+
     public boolean isExpanded() {
         return expanded;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

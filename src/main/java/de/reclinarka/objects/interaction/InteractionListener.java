@@ -126,13 +126,17 @@ public class InteractionListener implements MouseListener, MouseMotionListener, 
             cooldown = false;
             if (mode == GAME_MODE) {
                 gameInstance.mouseEvent(old, EventType.Mouse_Clicked, ID);
-            } else {
+            } else if (mode == ANIMATOR_MODE) {
+                animatorInstance.mouseEvent(e,EventType.Mouse_Clicked,ID);
+            }  else {
                 registry.mouseEvent(old, EventType.Mouse_Clicked, ID);
             }
         }
         if (mode == GAME_MODE) {
             gameInstance.mouseEvent(e,EventType.Mouse_Released,ID);
-        } else {
+        } else if (mode == ANIMATOR_MODE) {
+            animatorInstance.mouseEvent(e,EventType.Mouse_Released,ID);
+        }  else {
             registry.mouseEvent(e, EventType.Mouse_Released, ID);
         }
     }

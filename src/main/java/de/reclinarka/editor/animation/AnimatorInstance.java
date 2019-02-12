@@ -14,14 +14,16 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 public class AnimatorInstance extends Instance implements Interactable {
-    public AnimatorInstance(String ID){
+    public AnimatorInstance(String ID, int height){
         super(ID,new DrawableRegister(ID + "_drawableRegister"),new InteractionRegistry(ID + "_interactionRegistry"));
-        mainToolbar = new Toolbar(ID + "_toolbar");
+        mainToolbar = new Toolbar(ID + "_toolbar", height);
         getInteractionRegistry().addRegistry(mainToolbar);
+        mainToolbar.setReciever(getInteractionRegistry(),getID());
     }
 
     private Toolbar mainToolbar;
-    boolean debug = false;
+    private boolean debug = false;
+    private boolean cineMode = false;
 
     public Toolbar getMainToolbar() {
         return mainToolbar;
@@ -38,7 +40,8 @@ public class AnimatorInstance extends Instance implements Interactable {
         }
 
         getDrawableRegister().draw(g);
-        mainToolbar.draw(g,currentFrame);
+        if(!cineMode)
+            mainToolbar.draw(g,currentFrame);
 
     }
 
@@ -50,13 +53,20 @@ public class AnimatorInstance extends Instance implements Interactable {
 
     @Override
     public void mouseEvent(MouseEvent e, EventType type, String ID) {
-        getInteractionRegistry().mouseEvent(e,type,ID);
+        if(!cineMode)
+            getInteractionRegistry().mouseEvent(e,type,ID);
 
     }
 
     @Override
     public void keyEvent(KeyEvent e, EventType type, String ID) {
-        getInteractionRegistry().keyEvent(e,type,ID);
+        //toggle cineMode
+        if(type == EventType.Key_Pressed && e.getKeyChar() == 't')
+            cineMode = !cineMode;
+
+        //when cineMode off passthrough to Toolbar
+        if(!cineMode)
+            getInteractionRegistry().keyEvent(e,type,ID);
     }
 
     @Override
