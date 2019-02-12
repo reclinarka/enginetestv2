@@ -2,6 +2,7 @@ package de.reclinarka.editor.animation.tools.controllElements;
 
 import de.reclinarka.editor.animation.tools.Toolbar;
 import de.reclinarka.objects.interaction.EventType;
+import de.reclinarka.util.ColorStorage;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -22,6 +23,8 @@ public class ToolSlider extends ControlElement {
     private int x = 0;
     private int y = 0;
     private boolean highlighted = false;
+    private boolean clicked = false;
+    private boolean active = false;
 
     @Override
     public void draw(Graphics g) {
@@ -31,7 +34,17 @@ public class ToolSlider extends ControlElement {
             int toolWidth = getParent().getDefaultToolWidth();
             int toolDistance = getParent().getDefaultToolDistance();
             int toolAmmount = getParent().getContent().size();
-            if(((toolWidth * toolAmmount) + (toolDistance * toolAmmount)) > toolbarWidth) {
+
+
+            if(((toolWidth * toolAmmount) + (toolDistance * toolAmmount)) > toolbarWidth){
+                active = true;
+            } else {
+                active = false;
+            }
+
+
+
+            if(active) {
                 if(highlighted)
                     g.setColor(new Color(255, 255, 255, 60));
                 else
@@ -40,6 +53,10 @@ public class ToolSlider extends ControlElement {
                 g.fillRect(startX, startY, length, size);
                 g.translate( startX + (int) (value * (length - barWidth)) , startY);
                 g.fillRect(0, 0, barWidth, size);
+                if(clicked){
+                    g.setColor(ColorStorage.defaultTextfieldBorder);
+                    g.drawRect(0,0,barWidth,size);
+                }
                 g.drawString("value: " + value,0,0);
             }
 
@@ -56,21 +73,32 @@ public class ToolSlider extends ControlElement {
         y = getRelativeMouseY(e);
 
         if(getParent().isExpanded()) {
-            if (x > startX && x < startX + length && y > startY && y < startY + size )
-                highlighted = true;
-            if(highlighted){
-                if (!(x > startX - highlightTolerance && x < startX + length + highlightTolerance && y > startY - highlightTolerance && y < startY + size + highlightTolerance ))
-                    highlighted = false;
-            }
-            if(type == EventType.Mouse_Dragged){
-                if (highlighted){
-                    int x = this.x - startX;
-                    x = x - barWidth / 2;
-                    value = (float)x / ((float)length - (float)barWidth);
-                    if(value < 0)
-                        value = 0;
-                    else if(value > 1)
-                        value = 1;
+
+            if(active) {
+                if (x > startX && x < startX + length && y > startY && y < startY + size)
+                    highlighted = true;
+                if (highlighted) {
+                    if (!(x > startX - highlightTolerance && x < startX + length + highlightTolerance && y > startY - highlightTolerance && y < startY + size + highlightTolerance))
+                        highlighted = false;
+                }
+                if (type == EventType.Mouse_Dragged) {
+                    if (highlighted) {
+                        clicked = true;
+                        int x = this.x - startX;
+                        x = x - barWidth / 2;
+                        value = (float) x / ((float) length - (float) barWidth);
+                        if (value < 0)
+                            value = 0;
+                        else if (value > 1)
+                            value = 1;
+                    } else {
+                        clicked = false;
+                    }
+                } else if(type == EventType.Mouse_Clicked){
+                    if(highlighted)
+                        clicked = true;
+                    else
+                        clicked = false;
                 }
             }
         }

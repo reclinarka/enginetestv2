@@ -23,7 +23,7 @@ public class Toolbar implements Interactable{
         this.totalHeight = totalHeight;
         elements.add(new HideButton(this));
         elements.add(new ToolSlider(this));
-        for(int i = 0; i<20; i++){
+        for(int i = 0; i<10; i++){
             addTool(new Tool("test_" + i, this));
         }
         defaultExtendedHeight = initDevision(5);
@@ -100,6 +100,7 @@ public class Toolbar implements Interactable{
     @Override
     public void mouseEvent(MouseEvent e, EventType type, String ID) {
         elements.forEach(f -> f.mouseEvent(e,type,ID));
+        content.forEach(f -> f.mouseEvent(e,type,ID));
         switch(type){
             case Mouse_Moved:
                 break;
