@@ -12,6 +12,7 @@ public class Tool {
         this.parent = parent;
     }
 
+    private boolean debugMode = false;
     private String ID;
     private Toolbar parent;
     private int x;
@@ -24,9 +25,11 @@ public class Tool {
     public void draw(Graphics g, String[] metadata){
         g.setColor(new Color(255,255,255,80));
         g.fillRoundRect(0,0,parent.getDefaultToolWidth(),parent.getToolHeight(),20,20);
-        g.drawString(ID,0,0);
-        g.fillOval(x-5,y-5,10,10);
-        g.drawString(ID,x,y);
+        if(debugMode) {
+            g.drawString(ID, 0, 0);
+            g.fillOval(x - 5, y - 5, 10, 10);
+            g.drawString(ID, x, y);
+        }
     }
 
     protected int getRelativeMouseY(MouseEvent e){
@@ -59,7 +62,12 @@ public class Tool {
     }
 
     public void commandThrown(String[] command, String ID) {
-
+        if(command[0].contentEquals("debug"))
+            if(command[1].contentEquals("all") || command[1].contentEquals(ID))
+                if(command[2].contentEquals("true"))
+                    debugMode = true;
+                else if(command[2].contentEquals("false"))
+                    debugMode = false;
     }
 
 

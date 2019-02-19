@@ -7,13 +7,16 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class ControlElement {
+public class AnimatorControlElement {
 
-    public ControlElement(Toolbar parent){
+    public AnimatorControlElement(Toolbar parent, String ID){
         this.parent = parent;
+        this.ID = ID;
     }
 
+    private boolean debugMode = false;
     private Toolbar parent;
+    private String ID;
 
     public void draw(Graphics g) {
 
@@ -29,7 +32,12 @@ public class ControlElement {
     }
 
     public void commandThrown(String[] command, String ID) {
-
+        if(command[0].contentEquals("debug"))
+            if(command[1].contentEquals("all") || command[1].contentEquals(ID))
+                if(command[2].contentEquals("true"))
+                    debugMode = true;
+                else if(command[2].contentEquals("false"))
+                    debugMode = false;
     }
 
     protected int getRelativeMouseY(MouseEvent e){
@@ -45,5 +53,17 @@ public class ControlElement {
 
     public Toolbar getParent() {
         return parent;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
     }
 }

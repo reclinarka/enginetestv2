@@ -4,6 +4,7 @@ import de.reclinarka.editor.animation.tools.Toolbar;
 import de.reclinarka.graphics.drawing.DrawableRegister;
 import de.reclinarka.graphics.frame.type.Slate;
 import de.reclinarka.instances.Instance;
+import de.reclinarka.objects.controlElements.Textfield;
 import de.reclinarka.objects.interaction.EventType;
 import de.reclinarka.objects.interaction.Interactable;
 import de.reclinarka.objects.interaction.InteractionRegistry;
@@ -13,11 +14,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+
+
+/**
+ * TODO Splines
+ * TODO Timeline
+ * TODO Basic Tools
+ *
+ * **/
 public class AnimatorInstance extends Instance implements Interactable {
     public AnimatorInstance(String ID, int height){
         super(ID,new DrawableRegister(ID + "_drawableRegister"),new InteractionRegistry(ID + "_interactionRegistry"));
         mainToolbar = new Toolbar(ID + "_toolbar", height);
+        Textfield testTextfield = new Textfield(50,50,400,50, "textfield_test");
         getInteractionRegistry().addRegistry(mainToolbar);
+
+        getInteractionRegistry().addRegistry(testTextfield);
+        getDrawableRegister().addRegistry(testTextfield);
         mainToolbar.setReciever(getInteractionRegistry(),getID());
     }
 
@@ -53,6 +66,7 @@ public class AnimatorInstance extends Instance implements Interactable {
 
     @Override
     public void mouseEvent(MouseEvent e, EventType type, String ID) {
+
         if(!cineMode)
             getInteractionRegistry().mouseEvent(e,type,ID);
 
@@ -61,7 +75,7 @@ public class AnimatorInstance extends Instance implements Interactable {
     @Override
     public void keyEvent(KeyEvent e, EventType type, String ID) {
         //toggle cineMode
-        if(type == EventType.Key_Pressed && e.getKeyChar() == 't')
+        if(type == EventType.Key_Pressed && e.getKeyCode() == 145)
             cineMode = !cineMode;
 
         //when cineMode off passthrough to Toolbar

@@ -8,16 +8,16 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class ToolSlider extends ControlElement {
-    public ToolSlider(Toolbar parent) {
-        super(parent);
+public class ToolSlider extends AnimatorControlElement {
+    public ToolSlider(Toolbar parent, String ID) {
+        super(parent, ID);
     }
 
     private int highlightTolerance = 20;
     private int startX = 70;
     private int startY = 10;
     private int length = 1820;
-    private int barWidth = length/5;
+    private int barWidth = length / 5;
     private int size = 30;
     private float value = 0;
     private int x = 0;
@@ -29,37 +29,36 @@ public class ToolSlider extends ControlElement {
     @Override
     public void draw(Graphics g) {
 
-        if(getParent().isExpanded()){
+        if (getParent().isExpanded()) {
             int toolbarWidth = getParent().getWidth();
             int toolWidth = getParent().getDefaultToolWidth();
             int toolDistance = getParent().getDefaultToolDistance();
             int toolAmmount = getParent().getContent().size();
 
 
-            if(((toolWidth * toolAmmount) + (toolDistance * toolAmmount)) > toolbarWidth){
+            if (((toolWidth * toolAmmount) + (toolDistance * toolAmmount)) > toolbarWidth) {
                 active = true;
             } else {
                 active = false;
             }
 
 
-
-            if(active) {
-                if(highlighted)
+            if (active) {
+                if (highlighted)
                     g.setColor(new Color(255, 255, 255, 60));
                 else
                     g.setColor(new Color(255, 255, 255, 30));
 
                 g.fillRect(startX, startY, length, size);
-                g.translate( startX + (int) (value * (length - barWidth)) , startY);
+                g.translate(startX + (int) (value * (length - barWidth)), startY);
                 g.fillRect(0, 0, barWidth, size);
-                if(clicked){
+                if (clicked) {
                     g.setColor(ColorStorage.defaultTextfieldBorder);
-                    g.drawRect(0,0,barWidth,size);
+                    g.drawRect(0, 0, barWidth, size);
                 }
-                g.drawString("value: " + value,0,0);
+                if (isDebugMode())
+                    g.drawString("value: " + value, 0, 0);
             }
-
 
 
         }
@@ -72,30 +71,33 @@ public class ToolSlider extends ControlElement {
         x = e.getX();
         y = getRelativeMouseY(e);
 
-        if(getParent().isExpanded()) {
+        if (getParent().isExpanded()) {
 
-            if(active) {
+            if (active) {
                 if (x > startX && x < startX + length && y > startY && y < startY + size)
                     highlighted = true;
                 if (highlighted) {
                     if (!(x > startX - highlightTolerance && x < startX + length + highlightTolerance && y > startY - highlightTolerance && y < startY + size + highlightTolerance))
                         highlighted = false;
                 }
-                if (type == EventType.Mouse_Dragged) {
-                    if (highlighted) {
-                        clicked = true;
-                        int x = this.x - startX;
-                        x = x - barWidth / 2;
-                        value = (float) x / ((float) length - (float) barWidth);
-                        if (value < 0)
-                            value = 0;
-                        else if (value > 1)
-                            value = 1;
-                    } else {
-                        clicked = false;
+                if (e.getButton() == 0)
+                    if (type == EventType.Mouse_Dragged) {
+                        if (highlighted) {
+                            clicked = true;
+                            int x = this.x - startX;
+                            x = x - barWidth / 2;
+                            value = (float) x / ((float) length - (float) barWidth);
+                            if (value < 0)
+                                value = 0;
+                            else if (value > 1)
+                                value = 1;
+                        } else {
+                            clicked = false;
+                        }
                     }
-                } else if(type == EventType.Mouse_Clicked){
-                    if(highlighted)
+
+                if (type == EventType.Mouse_Clicked) {
+                    if (highlighted)
                         clicked = true;
                     else
                         clicked = false;
@@ -112,6 +114,7 @@ public class ToolSlider extends ControlElement {
 
     @Override
     public void commandThrown(String[] command, String ID) {
+        super.commandThrown(command, ID);
 
     }
 

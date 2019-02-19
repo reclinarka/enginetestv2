@@ -43,6 +43,7 @@ public class Main {
         InstanceManager window1_manager = new InstanceManager("window1_manager",window1,animatorSlate);
         window1_manager.addInstance(testAnimatorInstance(height));
         window1_manager.init("animatorTest");
+        window1_manager.getActiveInstance().getInteractionRegistry().commandThrown(new String[]{"debug","all","false"},"null");
         while (true){
             window1.repaint();
         }

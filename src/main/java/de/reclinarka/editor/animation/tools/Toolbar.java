@@ -1,6 +1,6 @@
 package de.reclinarka.editor.animation.tools;
 
-import de.reclinarka.editor.animation.tools.controllElements.ControlElement;
+import de.reclinarka.editor.animation.tools.controllElements.AnimatorControlElement;
 import de.reclinarka.editor.animation.tools.controllElements.HideButton;
 import de.reclinarka.editor.animation.tools.controllElements.ToolSlider;
 import de.reclinarka.objects.framework.properties.coordinates.Coordinate;
@@ -21,8 +21,8 @@ public class Toolbar implements Interactable{
     public Toolbar(String ID, int totalHeight){
         this.ID = ID;
         this.totalHeight = totalHeight;
-        elements.add(new HideButton(this));
-        elements.add(new ToolSlider(this));
+        elements.add(new HideButton(this, "hideButton"));
+        elements.add(new ToolSlider(this, "toolSlider"));
         for(int i = 0; i<10; i++){
             addTool(new Tool("test_" + i, this));
         }
@@ -46,7 +46,7 @@ public class Toolbar implements Interactable{
     private Coordinate lastMousePos = new Coordinate(0,0);
     private String ID;
     private ArrayList<Tool> content = new ArrayList<>();
-    private ArrayList<ControlElement> elements = new ArrayList<>();
+    private ArrayList<AnimatorControlElement> elements = new ArrayList<>();
     public BufferedImage lastExtendedRender;
 
     private int initDevision(int x){
@@ -127,6 +127,8 @@ public class Toolbar implements Interactable{
 
     @Override
     public void commandThrown(String[] command, String ID) {
+        elements.forEach(f -> f.commandThrown(command,ID));
+        content.forEach(f -> f.commandThrown(command,ID));
 
     }
 
