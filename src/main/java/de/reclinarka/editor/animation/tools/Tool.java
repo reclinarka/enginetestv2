@@ -1,10 +1,13 @@
 package de.reclinarka.editor.animation.tools;
 
+import de.reclinarka.graphics.drawing.DrawableRegister;
 import de.reclinarka.objects.interaction.EventType;
+import de.reclinarka.objects.interaction.InteractionRegistry;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 public class Tool {
     public Tool(String ID, Toolbar parent){
@@ -32,11 +35,11 @@ public class Tool {
         }
     }
 
-    protected int getRelativeMouseY(MouseEvent e){
+    public int getRelativeMouseY(MouseEvent e){
         return e.getY() - ((parent.getHeight() * 4) + parent.getToolYOffset());
     }
 
-    protected int getRelativeMouseX(MouseEvent e){
+    public int getRelativeMouseX(MouseEvent e){
         float value = parent.getSliderValue();
         int size = getParent().getContent().size();
         int toolWidth = parent.getDefaultToolWidth();
@@ -73,5 +76,62 @@ public class Tool {
 
     public Toolbar getParent() {
         return parent;
+    }
+
+    public InteractionRegistry getParentInteractionRegistry(){
+        return parent.getParent().getInteractionRegistry();
+    }
+
+    public DrawableRegister getParentDrawableRegister(){
+        return parent.getParent().getDrawableRegister();
+    }
+
+
+}
+
+class Button {
+    public Button(Tool parent, int[] dimensions/*x,y,width,height*/, String ID){
+        this.parent = parent;
+        this.ID = ID;
+        x = dimensions[0];
+        y = dimensions[1];
+        width = dimensions[2];
+        height = dimensions[3];
+    }
+
+    private Tool parent;
+
+    private String ID;
+
+    private int x;
+    private int y;
+
+    private int width;
+    private int height;
+
+    private Color primary = new Color(255,255,255,40);
+
+
+    public void draw(Graphics g){
+        g.setColor(primary);
+        g.fillRect(x,y,width,height);
+    }
+
+    public String[] withinBounds(int x, int y){
+        String[] output = new String[]{"false",ID};
+        if(x > this.x && x < this.x + width && y > this.y && y < this.y + height)
+            output[0] = "true";
+        return output;
+    }
+    public String getID() {
+        return ID;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

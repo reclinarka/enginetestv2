@@ -185,6 +185,14 @@ public class Textfield extends ControlElement {
     @Override
     public void commandThrown(String[] command, String ID) {
         super.commandThrown(command, ID);
+        switch (command[2]){
+            case "textfield_throw":
+                if(command[1].contentEquals(getID()))
+                    commandParser();
+                break;
+            case " ":
+                break;
+        }
     }
 
     //Getter

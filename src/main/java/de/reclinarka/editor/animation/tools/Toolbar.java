@@ -1,5 +1,7 @@
 package de.reclinarka.editor.animation.tools;
 
+import de.reclinarka.editor.animation.AnimatorInstance;
+import de.reclinarka.editor.animation.tools.animationTools.CreatingTool;
 import de.reclinarka.editor.animation.tools.controllElements.AnimatorControlElement;
 import de.reclinarka.editor.animation.tools.controllElements.HideButton;
 import de.reclinarka.editor.animation.tools.controllElements.ToolSlider;
@@ -18,19 +20,21 @@ import java.util.ArrayList;
 
 public class Toolbar implements Interactable{
 
-    public Toolbar(String ID, int totalHeight){
+    public Toolbar(String ID, int totalHeight, AnimatorInstance parent){
         this.ID = ID;
         this.totalHeight = totalHeight;
+        this.parent = parent;
         elements.add(new HideButton(this, "hideButton"));
         elements.add(new ToolSlider(this, "toolSlider"));
-        for(int i = 0; i<10; i++){
-            addTool(new Tool("test_" + i, this));
-        }
+        //for(int i = 0; i<10; i++){
+        //    addTool(new Tool("test_" + i, this));
+        //}
+        addTool(new CreatingTool("CreationToolTest",this));
         defaultExtendedHeight = initDevision(5);
         defaultFoldedHeight = initDevision(20);
-
     }
 
+    private AnimatorInstance parent;
     private final int totalHeight;
     private int toolHeight = 160;
     private InteractionRegistry reciever;
@@ -167,6 +171,10 @@ public class Toolbar implements Interactable{
 
     //Getter
 
+
+    public AnimatorInstance getParent() {
+        return parent;
+    }
 
     public int getToolHeight() {
         return toolHeight;

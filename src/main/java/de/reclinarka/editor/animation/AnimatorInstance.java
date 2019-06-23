@@ -25,8 +25,8 @@ import java.awt.image.BufferedImage;
 public class AnimatorInstance extends Instance implements Interactable {
     public AnimatorInstance(String ID, int height){
         super(ID,new DrawableRegister(ID + "_drawableRegister"),new InteractionRegistry(ID + "_interactionRegistry"));
-        mainToolbar = new Toolbar(ID + "_toolbar", height);
-        Textfield testTextfield = new Textfield(50,50,400,50, "textfield_test");
+        mainToolbar = new Toolbar(ID + "_toolbar", height, this);
+        Textfield testTextfield = new Textfield(50,25,400,25, "textfield_test");
         getInteractionRegistry().addRegistry(mainToolbar);
 
         getInteractionRegistry().addRegistry(testTextfield);
@@ -34,6 +34,8 @@ public class AnimatorInstance extends Instance implements Interactable {
         mainToolbar.setReciever(getInteractionRegistry(),getID());
     }
 
+    private int frame;
+    private int frameCount;
     private Toolbar mainToolbar;
     private boolean debug = false;
     private boolean cineMode = false;
@@ -95,5 +97,13 @@ public class AnimatorInstance extends Instance implements Interactable {
     @Override
     public void setReciever(InteractionRegistry reciever, String ID) {
 
+    }
+
+    public int getFrame() {
+        return frame;
+    }
+
+    public int getFrameCount() {
+        return frameCount;
     }
 }
